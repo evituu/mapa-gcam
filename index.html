@@ -441,42 +441,42 @@
 
   <div class="bg" id="loginTela">
     <div class="login-box" id="loginBox">
-      <h2>Dashboard - Projeção GCAM</h2>
-      <p>Digite o código para quantificar os dados</p>
+      <h2 data-i18n="dashboardTitle">Dashboard - Projeção GCAM</h2>
+      <p data-i18n="enterCode">Digite o código para quantificar os dados</p>
       <div class="input-group">
-        <input type="password" id="senhaInput" placeholder="Digite o código de acesso..." autofocus />
+        <input type="password" id="senhaInput" data-i18n-placeholder="enterPassword" placeholder="Digite o código de acesso..." autofocus />
         <span class="toggle-password" onclick="togglePassword()">
           <i class="fas fa-eye"></i>
         </span>
       </div>
-      <button onclick="verificarSenha()"><i class="fas fa-lock"></i> Entrar</button>
-      <div class="error-message" id="errorMessage">Senha incorreta. Tente novamente.</div>
+      <button onclick="verificarSenha()"><i class="fas fa-lock"></i> <span data-i18n="enter">Entrar</span></button>
+      <div class="error-message" id="errorMessage" data-i18n="wrongPassword">Senha incorreta. Tente novamente.</div>
     </div>
   </div>
 
   <div class="welcome-message" id="welcomeMessage">
-    <i class="fas fa-check-circle"></i> Bem-vindo ao Painel do Modelo GCAM!
+    <i class="fas fa-check-circle"></i> <span data-i18n="welcome">Bem-vindo ao Painel do Modelo GCAM!</span>
   </div>
 
   <nav class="sidebar" id="sidebar">
     <div class="sidebar-header">
-      <h3>Dashboard GCAM</h3>
+      <h3 data-i18n="dashboardGCAM">Dashboard GCAM</h3>
     </div>
     <div class="sidebar-nav">
       <a class="nav-item" onclick="carregarConteudo('apresentacao.html')" id="menuApresentacao">
-        <i class="fas fa-info-circle"></i> Apresentação
+        <i class="fas fa-info-circle"></i> <span data-i18n="presentation">Apresentação</span>
       </a>
       <a class="nav-item" onclick="carregarConteudo('Grafico_Intera.html')" id="menuGrafico">
-        <i class="fas fa-chart-line"></i> Gráfico
+        <i class="fas fa-chart-line"></i> <span data-i18n="graph">Gráfico</span>
       </a>
       <a class="nav-item" onclick="carregarConteudo('GCAM_ECONOMIA_AMBIENTAL6.html')" id="menuMapa">
-        <i class="fas fa-map"></i> Mapa
+        <i class="fas fa-map"></i> <span data-i18n="map">Mapa</span>
       </a>
       <a class="nav-item" onclick="carregarConteudo('contato.html')" id="menuContato">
-        <i class="fas fa-address-card"></i> Contato
+        <i class="fas fa-address-card"></i> <span data-i18n="contact">Contato</span>
       </a>
       <a class="nav-item" id="menuCompartilhar">
-        <i class="fas fa-share-alt"></i> Compartilhar
+        <i class="fas fa-share-alt"></i> <span data-i18n="share">Compartilhar</span>
         <div class="share-dropdown" id="shareDropdown">
           <a class="share-button" onclick="compartilhar('facebook')">
             <i class="fab fa-facebook"></i> Facebook
@@ -493,7 +493,10 @@
         </div>
       </a>
       <a class="nav-item" onclick="toggleDarkMode()" id="toggleModo">
-        <i class="fas fa-moon"></i> Modo Escuro
+        <i class="fas fa-moon"></i> <span data-i18n="darkMode">Modo Escuro</span>
+      </a>
+      <a class="nav-item" onclick="toggleLanguage()" id="toggleIdioma">
+        <i class="fas fa-language"></i> <span data-i18n="switchToEnglish">English</span>
       </a>
     </div>
   </nav>
@@ -506,7 +509,7 @@
   </div>
 
   <div class="copied-message" id="copiedMessage">
-    Link copiado com sucesso! ✅
+    <span data-i18n="linkCopied">Link copiado com sucesso!</span> ✅
   </div>
 
   <script>
@@ -729,6 +732,90 @@
       });
       document.getElementById('shareDropdown').classList.remove('active');
     }
+
+    // Sistema de internacionalização
+    const translations = {
+      pt: {
+        dashboardTitle: "Dashboard - Projeção GCAM",
+        enterCode: "Digite o código para quantificar os dados",
+        enterPassword: "Digite o código de acesso...",
+        enter: "Entrar",
+        wrongPassword: "Senha incorreta. Tente novamente.",
+        welcome: "Bem-vindo ao Painel do Modelo GCAM!",
+        dashboardGCAM: "Dashboard GCAM",
+        presentation: "Apresentação",
+        graph: "Gráfico",
+        map: "Mapa",
+        contact: "Contato",
+        share: "Compartilhar",
+        darkMode: "Modo Escuro",
+        lightMode: "Modo Claro",
+        switchToEnglish: "English",
+        switchToPortuguese: "Português",
+        linkCopied: "Link copiado com sucesso!"
+      },
+      en: {
+        dashboardTitle: "Dashboard - GCAM Projection",
+        enterCode: "Enter the code to quantify data",
+        enterPassword: "Enter access code...",
+        enter: "Enter",
+        wrongPassword: "Wrong password. Try again.",
+        welcome: "Welcome to the GCAM Model Dashboard!",
+        dashboardGCAM: "GCAM Dashboard",
+        presentation: "Presentation",
+        graph: "Graph",
+        map: "Map",
+        contact: "Contact",
+        share: "Share",
+        darkMode: "Dark Mode",
+        lightMode: "Light Mode",
+        switchToEnglish: "English",
+        switchToPortuguese: "Portuguese",
+        linkCopied: "Link copied successfully!"
+      }
+    };
+
+    let currentLanguage = 'pt';
+
+    function updateTexts() {
+      const elements = document.querySelectorAll('[data-i18n]');
+      elements.forEach(element => {
+        const key = element.getAttribute('data-i18n');
+        if (translations[currentLanguage][key]) {
+          element.textContent = translations[currentLanguage][key];
+        }
+      });
+
+      // Atualiza placeholders
+      const inputElements = document.querySelectorAll('[data-i18n-placeholder]');
+      inputElements.forEach(element => {
+        const key = element.getAttribute('data-i18n-placeholder');
+        if (translations[currentLanguage][key]) {
+          element.placeholder = translations[currentLanguage][key];
+        }
+      });
+
+      // Atualiza o texto do botão de idioma
+      const languageButton = document.querySelector('#toggleIdioma span');
+      languageButton.textContent = currentLanguage === 'pt' ? 'English' : 'Português';
+    }
+
+    function toggleLanguage() {
+      currentLanguage = currentLanguage === 'pt' ? 'en' : 'pt';
+      updateTexts();
+      
+      // Salva a preferência de idioma
+      localStorage.setItem('preferredLanguage', currentLanguage);
+    }
+
+    // Carrega a preferência de idioma ao iniciar
+    document.addEventListener('DOMContentLoaded', () => {
+      const savedLanguage = localStorage.getItem('preferredLanguage');
+      if (savedLanguage) {
+        currentLanguage = savedLanguage;
+        updateTexts();
+      }
+    });
   </script>
 </body>
 </html>
