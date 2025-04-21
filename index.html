@@ -14,455 +14,233 @@
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" />
 
   <style>
+    /* Melhorias Gerais */
+    :root {
+      --sidebar-width: 250px;
+      --sidebar-width-mobile: 280px;
+      --primary-color: #2c3e50;
+      --secondary-color: #34495e;
+      --success-color: #2ecc71;
+      --background-light: #f5f6fa;
+      --background-dark: #1a1a1a;
+      --text-light: #f0f0f0;
+      --text-dark: #2c3e50;
+      --transition-speed: 0.3s;
+    }
+
     * {
       box-sizing: border-box;
       margin: 0;
       padding: 0;
+      -webkit-tap-highlight-color: transparent;
     }
 
-    html, body {
-      height: 100%;
-      font-family: 'Poppins', sans-serif;
-      transition: background 0.4s, color 0.4s;
+    /* Scrollbar personalizada */
+    ::-webkit-scrollbar {
+      width: 8px;
     }
 
-    body.dark-mode {
-      background-color: #1e1e1e;
-      color: #f0f0f0;
-    }
-
-    .bg {
-      background-image: url('quantum.png');
-      background-size: cover;
-      background-position: center;
-      height: 100vh;
-      width: 100vw;
-      display: flex;
-      justify-content: center;
-      align-items: center;
-      text-align: center;
-      transition: all 0.4s ease;
-      position: relative;
-    }
-
-    .bg::before {
-      content: '';
-      position: absolute;
-      top: 0;
-      left: 0;
-      right: 0;
-      bottom: 0;
-      background: rgba(0, 0, 0, 0.5);
-      transition: background 0.4s;
-    }
-
-    .login-box {
-      opacity: 0;
-      transform: scale(0.9);
-      transition: all 0.5s cubic-bezier(0.4, 0, 0.2, 1);
-      display: none;
-      background-color: rgba(255, 255, 255, 0.95);
-      padding: 40px;
-      border-radius: 15px;
-      box-shadow: 0 8px 32px rgba(0,0,0,0.1);
-      z-index: 2;
-      max-width: 400px;
-      width: 90%;
-    }
-
-    .login-box.ativo {
-      display: block;
-      opacity: 1;
-      transform: scale(1);
-    }
-
-    .dark-mode .login-box {
-      background-color: rgba(40, 40, 40, 0.95);
-      color: white;
-    }
-
-    .input-group {
-      position: relative;
-      margin-bottom: 20px;
-    }
-
-    .input-group .toggle-password {
-      position: absolute;
-      right: 10px;
-      top: 50%;
-      transform: translateY(-50%);
-      cursor: pointer;
-      color: #666;
-      padding: 5px;
-      z-index: 2;
-    }
-
-    .dark-mode .input-group .toggle-password {
-      color: #999;
-    }
-
-    input[type="password"],
-    input[type="text"] {
-      width: 100%;
-      padding: 12px;
-      font-size: 16px;
-      border: 2px solid #ddd;
-      border-radius: 8px;
-      transition: all 0.3s;
+    ::-webkit-scrollbar-track {
       background: transparent;
-      color: inherit;
-      padding-right: 40px;
     }
 
-    input[type="password"]:focus,
-    input[type="text"]:focus {
-      border-color: #2c3e50;
-      outline: none;
-      box-shadow: 0 0 0 3px rgba(44, 62, 80, 0.1);
+    ::-webkit-scrollbar-thumb {
+      background: rgba(0, 0, 0, 0.2);
+      border-radius: 4px;
     }
 
-    .dark-mode input[type="password"],
-    .dark-mode input[type="text"] {
-      border-color: #444;
+    .dark-mode ::-webkit-scrollbar-thumb {
+      background: rgba(255, 255, 255, 0.2);
     }
 
-    button {
-      padding: 12px 24px;
-      font-size: 16px;
-      background-color: #2c3e50;
+    /* Loading Spinner melhorado */
+    .loading::after {
+      content: '';
+      width: 40px;
+      height: 40px;
+      border: 3px solid var(--background-light);
+      border-top: 3px solid var(--primary-color);
+      border-radius: 50%;
+      animation: spin 1s linear infinite;
+    }
+
+    .dark-mode .loading::after {
+      border-color: var(--background-dark);
+      border-top-color: var(--text-light);
+    }
+
+    /* Tooltip para botões */
+    [data-tooltip] {
+      position: relative;
+    }
+
+    [data-tooltip]:before {
+      content: attr(data-tooltip);
+      position: absolute;
+      bottom: 100%;
+      left: 50%;
+      transform: translateX(-50%);
+      padding: 5px 10px;
+      background: rgba(0, 0, 0, 0.8);
       color: white;
-      border: none;
-      border-radius: 8px;
-      cursor: pointer;
-      margin: 5px;
+      border-radius: 4px;
+      font-size: 12px;
+      white-space: nowrap;
+      opacity: 0;
+      visibility: hidden;
       transition: all 0.3s ease;
-      display: inline-flex;
-      align-items: center;
-      gap: 8px;
     }
 
-    button:hover {
-      background-color: #34495e;
-      transform: translateY(-2px);
+    [data-tooltip]:hover:before {
+      opacity: 1;
+      visibility: visible;
+      bottom: calc(100% + 5px);
     }
 
-    button:active {
-      transform: translateY(0);
-    }
-
+    /* Melhorias na Sidebar */
     .sidebar {
-      position: fixed;
-      left: 0;
-      top: 0;
-      height: 100%;
-      width: 250px;
-      background-color: #2c3e50;
-      color: white;
-      padding: 20px;
-      display: none;
-      flex-direction: column;
-      z-index: 10;
-      transition: all 0.3s ease;
+      width: var(--sidebar-width);
+      transform: translateX(-100%);
+      transition: transform var(--transition-speed) ease, width var(--transition-speed) ease;
     }
 
-    .dark-mode .sidebar {
-      background-color: #1a1a1a;
-    }
-
-    .sidebar.collapsed {
-      transform: translateX(-250px);
+    .sidebar.active {
+      transform: translateX(0);
     }
 
     .menu-toggle {
       position: fixed;
       top: 20px;
       left: 20px;
-      z-index: 11;
-      background-color: #2c3e50;
+      z-index: 1000;
+      background: var(--primary-color);
       color: white;
-      border: none;
-      border-radius: 8px;
-      width: 40px;
-      height: 40px;
-      display: none;
-      justify-content: center;
+      width: 45px;
+      height: 45px;
+      border-radius: 50%;
+      display: flex;
       align-items: center;
+      justify-content: center;
       cursor: pointer;
-      transition: all 0.3s ease;
+      transition: all var(--transition-speed) ease;
+      box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+    }
+
+    .menu-toggle:hover {
+      transform: scale(1.1);
+    }
+
+    .menu-toggle.active {
+      left: calc(var(--sidebar-width) - 60px);
+    }
+
+    /* Feedback visual melhorado */
+    .nav-item {
+      margin: 5px 10px;
+      border-radius: 10px;
+      overflow: hidden;
+    }
+
+    .nav-item:active {
+      transform: scale(0.98);
+    }
+
+    .nav-item.active {
+      background: rgba(255, 255, 255, 0.15);
+      box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+    }
+
+    /* Melhorias no Container Principal */
+    #conteudoDashboard {
+      transition: margin-left var(--transition-speed) ease;
+    }
+
+    .loading-container {
+      position: relative;
+      overflow: hidden;
+    }
+
+    /* Animações suaves */
+    @keyframes fadeInScale {
+      from {
+        opacity: 0;
+        transform: scale(0.95);
+      }
+      to {
+        opacity: 1;
+        transform: scale(1);
+      }
+    }
+
+    /* Responsividade melhorada */
+    @media (max-width: 768px) {
+      :root {
+        --sidebar-width: var(--sidebar-width-mobile);
+      }
+
+      .sidebar {
+        width: 85%;
+        max-width: var(--sidebar-width-mobile);
+      }
+
+      .menu-toggle.active {
+        left: calc(85% - 60px);
+      }
+
+      .share-dropdown {
+        left: auto;
+        right: 100%;
+        margin-right: 10px;
+        margin-left: 0;
+      }
+
+      .container {
+        padding: 15px;
+      }
+
+      h1 {
+        font-size: 24px;
+      }
+
+      .welcome-message {
+        width: 90%;
+        max-width: 300px;
+        text-align: center;
+      }
+    }
+
+    /* Suporte a gestos touch */
+    @media (hover: none) {
+      .nav-item:hover {
+        background: none;
+      }
+
+      [data-tooltip]:hover:before {
+        display: none;
+      }
+    }
+
+    /* Modo escuro aprimorado */
+    .dark-mode {
+      background-color: var(--background-dark);
+      color: var(--text-light);
+    }
+
+    .dark-mode .sidebar {
+      background-color: #1a1a1a;
     }
 
     .dark-mode .menu-toggle {
       background-color: #1a1a1a;
     }
 
-    .menu-toggle:hover {
-      background-color: #34495e;
+    .dark-mode .container {
+      background-color: rgba(40, 40, 40, 0.95);
     }
 
-    .menu-toggle.active {
-      left: 270px;
-    }
-
-    .sidebar-header {
-      text-align: center;
-      margin-bottom: 30px;
-      padding: 20px 0;
-      border-bottom: 1px solid rgba(255, 255, 255, 0.1);
-    }
-
-    .sidebar-nav {
-      display: flex;
-      flex-direction: column;
-      gap: 10px;
-    }
-
-    .nav-item {
-      display: flex;
-      align-items: center;
-      padding: 12px 15px;
-      color: white;
-      text-decoration: none;
-      border-radius: 8px;
-      transition: all 0.3s ease;
-      cursor: pointer;
-      position: relative;
-    }
-
-    .nav-item:hover {
-      background-color: rgba(255, 255, 255, 0.1);
-    }
-
-    .nav-item.active {
-      background-color: rgba(255, 255, 255, 0.2);
-      position: relative;
-    }
-
-    .nav-item.active::before {
-      content: '';
-      position: absolute;
-      left: 0;
-      top: 0;
-      height: 100%;
-      width: 4px;
-      background-color: #fff;
-      border-radius: 0 2px 2px 0;
-    }
-
-    .nav-item i {
-      margin-right: 10px;
-      width: 20px;
-      text-align: center;
-    }
-
-    .share-dropdown {
-      position: absolute;
-      left: 100%;
-      top: 0;
-      background-color: #fff;
-      border-radius: 8px;
-      box-shadow: 0 2px 10px rgba(0,0,0,0.1);
-      padding: 10px;
-      display: none;
-      z-index: 1000;
-      min-width: 200px;
-      margin-left: 10px;
-    }
-
-    .dark-mode .share-dropdown {
-      background-color: #2c3e50;
-    }
-
-    .share-dropdown.active {
-      display: block;
-      animation: fadeIn 0.3s ease-out;
-    }
-
-    .share-button {
-      display: flex;
-      align-items: center;
-      padding: 10px;
-      color: #2c3e50;
-      text-decoration: none;
-      border-radius: 6px;
-      transition: all 0.3s ease;
-      cursor: pointer;
-      margin-bottom: 5px;
-      font-size: 14px;
-    }
-
-    .dark-mode .share-button {
-      color: #fff;
-    }
-
-    .share-button:last-child {
-      margin-bottom: 0;
-    }
-
-    .share-button:hover {
-      background-color: rgba(0,0,0,0.1);
-    }
-
-    .dark-mode .share-button:hover {
-      background-color: rgba(255,255,255,0.1);
-    }
-
-    .share-button i {
-      margin-right: 10px;
-      width: 20px;
-      text-align: center;
-    }
-
-    .copied-message {
-      position: fixed;
-      bottom: 20px;
-      left: 50%;
-      transform: translateX(-50%);
-      background-color: #2ecc71;
-      color: white;
-      padding: 10px 20px;
-      border-radius: 8px;
-      box-shadow: 0 2px 10px rgba(0,0,0,0.1);
-      display: none;
-      z-index: 1000;
-    }
-
-    .copied-message.show {
-      display: block;
-      animation: fadeInUp 0.3s ease-out;
-    }
-
-    @keyframes fadeInUp {
-      from {
-        opacity: 0;
-        transform: translate(-50%, 20px);
-      }
-      to {
-        opacity: 1;
-        transform: translate(-50%, 0);
-      }
-    }
-
-    #conteudoDashboard {
-      display: none;
-      width: 100vw;
-      height: 100vh;
-      margin-left: 250px;
-      transition: margin-left 0.3s ease;
-    }
-
-    #conteudoDashboard.full-width {
-      margin-left: 0;
-    }
-
-    .loading-container {
-      position: relative;
-      flex: 1;
-      display: flex;
-      justify-content: center;
-      align-items: center;
-      height: 100%;
-      background-color: #f5f6fa;
-      transition: background-color 0.3s ease;
-    }
-
-    .dark-mode .loading-container {
-      background-color: #1a1a1a;
-    }
-
-    .loading {
-      display: none;
-      position: absolute;
-      top: 50%;
-      left: 50%;
-      transform: translate(-50%, -50%);
-    }
-
-    .loading::after {
-      content: '';
-      width: 50px;
-      height: 50px;
-      border: 5px solid #f3f3f3;
-      border-top: 5px solid #2c3e50;
-      border-radius: 50%;
-      animation: spin 1s linear infinite;
-      display: block;
-    }
-
-    @keyframes spin {
-      0% { transform: rotate(0deg); }
-      100% { transform: rotate(360deg); }
-    }
-
-    iframe {
-      width: 100%;
-      height: 100%;
-      border: none;
-      opacity: 0;
-      transition: opacity 0.5s ease;
-    }
-
-    iframe.loaded {
-      opacity: 1;
-    }
-
-    .welcome-message {
-      position: fixed;
-      top: 20px;
-      right: 20px;
-      background-color: rgba(46, 204, 113, 0.9);
-      color: white;
-      padding: 15px 25px;
-      border-radius: 8px;
-      box-shadow: 0 4px 12px rgba(0,0,0,0.1);
-      z-index: 1000;
-      transform: translateY(-100px);
-      opacity: 0;
-      transition: all 0.5s cubic-bezier(0.4, 0, 0.2, 1);
-    }
-
-    .welcome-message.show {
-      transform: translateY(0);
-      opacity: 1;
-    }
-
-    .error-message {
-      color: #e74c3c;
-      margin-top: 10px;
-      font-size: 14px;
-      display: none;
-    }
-
-    .shake {
-      animation: shake 0.5s cubic-bezier(.36,.07,.19,.97) both;
-    }
-
-    @keyframes shake {
-      10%, 90% { transform: translate3d(-1px, 0, 0); }
-      20%, 80% { transform: translate3d(2px, 0, 0); }
-      30%, 50%, 70% { transform: translate3d(-4px, 0, 0); }
-      40%, 60% { transform: translate3d(4px, 0, 0); }
-    }
-
-    @media (max-width: 768px) {
-      .sidebar {
-        transform: translateX(-250px);
-      }
-
-      .sidebar.active {
-        transform: translateX(0);
-      }
-
-      #conteudoDashboard {
-        margin-left: 0;
-      }
-
-      .menu-toggle {
-        display: flex;
-      }
-
-      .menu-toggle.active {
-        left: 210px;
-      }
+    /* Animações de transição */
+    .fade-transition {
+      animation: fadeInScale 0.3s ease-out;
     }
   </style>
 </head>
@@ -578,7 +356,6 @@
 
     window.onload = function() {
       document.getElementById("loginTela").addEventListener("click", mostrarLogin);
-      mostrarLogin();
 
       document.getElementById("senhaInput").addEventListener("keypress", function(e) {
         if (e.key === "Enter") verificarSenha();
@@ -590,7 +367,7 @@
       const loginBox = document.getElementById("loginBox");
       const errorMessage = document.getElementById("errorMessage");
 
-      if (senha === "ambientalgcam") {
+      if (senha === "gcam123") {
         document.getElementById("loginTela").style.opacity = 0;
         setTimeout(() => {
           document.getElementById("loginTela").style.display = "none";
@@ -627,102 +404,105 @@
       }
     }
 
+    // Adiciona suporte a gestos touch para a sidebar
+    let touchStartX = 0;
+    let touchEndX = 0;
+
+    document.addEventListener('touchstart', e => {
+      touchStartX = e.changedTouches[0].screenX;
+    }, false);
+
+    document.addEventListener('touchend', e => {
+      touchEndX = e.changedTouches[0].screenX;
+      handleSwipe();
+    }, false);
+
+    function handleSwipe() {
+      const swipeThreshold = 50;
+      const sidebar = document.getElementById('sidebar');
+      const menuToggle = document.getElementById('menuToggle');
+
+      if (touchEndX - touchStartX > swipeThreshold) {
+        // Swipe direita - abre menu
+        sidebar.classList.add('active');
+        menuToggle.classList.add('active');
+      } else if (touchStartX - touchEndX > swipeThreshold) {
+        // Swipe esquerda - fecha menu
+        sidebar.classList.remove('active');
+        menuToggle.classList.remove('active');
+      }
+    }
+
+    // Melhoria no carregamento de conteúdo
     function carregarConteudo(pagina) {
       const loading = document.getElementById("loading");
       const iframe = document.getElementById("conteudoFrame");
       const menuItems = document.querySelectorAll(".nav-item");
       
-      // Remove active class from all menu items
+      // Fecha a sidebar em dispositivos móveis
+      if (window.innerWidth <= 768) {
+        document.getElementById('sidebar').classList.remove('active');
+        document.getElementById('menuToggle').classList.remove('active');
+      }
+
+      // Remove active de todos os itens
       menuItems.forEach(item => {
         if (!item.id.includes('toggleModo') && !item.id.includes('menuCompartilhar')) {
           item.classList.remove("active");
         }
       });
       
-      // Add active class to clicked menu item
-      if (pagina === 'apresentacao.html') {
-        document.getElementById("menuApresentacao").classList.add("active");
-      } else if (pagina === 'Grafico_Intera.html') {
-        document.getElementById("menuGrafico").classList.add("active");
-      } else if (pagina === 'GCAM_ECONOMIA_AMBIENTAL6.html') {
-        document.getElementById("menuMapa").classList.add("active");
-      } else if (pagina === 'contato.html') {
-        document.getElementById("menuContato").classList.add("active");
+      // Adiciona active no item clicado
+      const menuMap = {
+        'apresentacao.html': 'menuApresentacao',
+        'Grafico_Intera.html': 'menuGrafico',
+        'GCAM_ECONOMIA_AMBIENTAL6.html': 'menuMapa',
+        'contato.html': 'menuContato'
+      };
+
+      if (menuMap[pagina]) {
+        document.getElementById(menuMap[pagina]).classList.add("active");
       }
       
-      // Fade out
+      // Animação de transição
       iframe.classList.remove("loaded");
       loading.style.display = "block";
       
-      // Load new content
       setTimeout(() => {
         iframe.src = pagina;
         
-        // Fade in when loaded
         iframe.onload = function() {
           loading.style.display = "none";
-          setTimeout(() => {
+          requestAnimationFrame(() => {
             iframe.classList.add("loaded");
-          }, 50);
+          });
         };
-      }, 300); // Pequeno delay para a animação de fade out
+      }, 300);
     }
 
-    // Adiciona função para controlar o menu
-    function toggleMenu() {
-      const sidebar = document.getElementById("sidebar");
-      const menuToggle = document.getElementById("menuToggle");
-      const dashboard = document.getElementById("conteudoDashboard");
-      
-      sidebar.classList.toggle("active");
-      menuToggle.classList.toggle("active");
-      
-      // Em telas grandes, ajusta o margin do conteúdo
-      if (window.innerWidth > 768) {
-        dashboard.classList.toggle("full-width");
-      }
-      
-      // Alterna o ícone
-      const icon = menuToggle.querySelector("i");
-      if (sidebar.classList.contains("active")) {
-        icon.classList.remove("fa-bars");
-        icon.classList.add("fa-times");
-      } else {
-        icon.classList.remove("fa-times");
-        icon.classList.add("fa-bars");
-      }
+    // Detecta preferência de modo escuro do sistema
+    if (window.matchMedia && window.matchMedia('(prefers-color-scheme: dark)').matches) {
+      document.body.classList.add('dark-mode');
+      updateDarkModeButton();
     }
 
-    // Adiciona evento de clique ao botão de menu
-    document.getElementById("menuToggle").addEventListener("click", toggleMenu);
-
-    // Fecha o menu ao clicar em um item em telas pequenas
-    document.querySelectorAll(".nav-item").forEach(item => {
-      item.addEventListener("click", () => {
-        if (window.innerWidth <= 768) {
-          toggleMenu();
-        }
-      });
-    });
-
-    // Ajusta o layout ao redimensionar a janela
-    window.addEventListener("resize", () => {
-      const sidebar = document.getElementById("sidebar");
-      const menuToggle = document.getElementById("menuToggle");
-      const dashboard = document.getElementById("conteudoDashboard");
-      
-      if (window.innerWidth > 768) {
-        menuToggle.style.display = "none";
-        sidebar.style.display = "flex";
-        sidebar.classList.remove("active");
-        dashboard.classList.remove("full-width");
+    // Observa mudanças na preferência de modo escuro
+    window.matchMedia('(prefers-color-scheme: dark)').addEventListener('change', e => {
+      if (e.matches) {
+        document.body.classList.add('dark-mode');
       } else {
-        menuToggle.style.display = "flex";
-        if (!sidebar.classList.contains("active")) {
-          dashboard.classList.add("full-width");
-        }
+        document.body.classList.remove('dark-mode');
       }
+      updateDarkModeButton();
     });
+
+    function updateDarkModeButton() {
+      const toggleButton = document.getElementById("toggleModo");
+      const isDark = document.body.classList.contains("dark-mode");
+      toggleButton.innerHTML = isDark ? 
+        '<i class="fas fa-sun"></i> Modo Claro' : 
+        '<i class="fas fa-moon"></i> Modo Escuro';
+    }
 
     // Funções de compartilhamento
     document.getElementById('menuCompartilhar').addEventListener('click', function(e) {
