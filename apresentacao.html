@@ -1,0 +1,115 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8" />
+  <title>Apresentação</title>
+  <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;600&display=swap" rel="stylesheet">
+
+  <style>
+    * {
+      box-sizing: border-box;
+    }
+
+    body {
+      font-family: 'Poppins', sans-serif;
+      margin: 0;
+      padding: 0;
+      color: #2c3e50;
+      background-image: url('gcam.png');
+      background-size: cover;
+      background-position: center;
+      background-repeat: no-repeat;
+      min-height: 100vh;
+      backdrop-filter: brightness(0.9) blur(2px); /* leve escurecimento + blur */
+      display: flex;
+      align-items: center;
+      justify-content: center;
+    }
+
+    .container {
+      background-color: rgba(255, 255, 255, 0.92);
+      padding: 40px;
+      max-width: 850px;
+      border-radius: 12px;
+      box-shadow: 0 0 25px rgba(0, 0, 0, 0.2);
+    }
+
+    h1 {
+      color: #34495e;
+      margin-bottom: 20px;
+      font-size: 32px;
+    }
+
+    p {
+      line-height: 1.7;
+      font-size: 17px;
+      margin-bottom: 16px;
+    }
+
+    ul {
+      margin-top: 10px;
+      font-size: 17px;
+      padding-left: 20px;
+    }
+
+    li {
+      margin-bottom: 8px;
+    }
+
+    strong {
+      color: #2c3e50;
+    }
+
+    em {
+      color: #555;
+    }
+
+    @media (max-width: 768px) {
+      .container {
+        padding: 25px;
+        margin: 20px;
+      }
+
+      h1 {
+        font-size: 24px;
+      }
+
+      p, ul {
+        font-size: 15px;
+      }
+    }
+  </style>
+</head>
+<body>
+  <div class="container">
+    <h1>🌿 Bem-vindo ao Painel Interativo GCAM</h1>
+
+    <p>
+      Este painel é parte de um <strong>trabalho acadêmico da disciplina Economia Ambiental</strong>,
+      ministrada pela Professora <strong>Márcia Fonseca</strong> no curso de Ciências Econômicas da
+      <strong>Universidade Federal da Paraíba (UFPB)</strong>.
+    </p>
+
+    <p>
+      O objetivo é explorar os dados de projeção de emissões globais de CO<sub>2</sub> com base no
+      <strong>Global Change Analysis Model (GCAM)</strong>, uma ferramenta integrada de modelagem que
+      simula as interações entre os sistemas energético, econômico, agrário e climático até o ano de 2100.
+    </p>
+
+    <p>
+      O <strong>GCAM</strong> (desenvolvido pelo <em>Pacific Northwest National Laboratory</em> – EUA) é um modelo de equilíbrio parcial
+      que permite avaliar trajetórias de emissão com base em diferentes cenários socioeconômicos e climáticos, sendo amplamente
+      utilizado em estudos de mitigação, políticas públicas e desenvolvimento sustentável.
+    </p>
+
+    <p>📂 Utilize o menu lateral para acessar as seções do painel:</p>
+    <ul>
+      <li>📈 <strong>Gráfico</strong>: Visualize as projeções temporais por país e continente</li>
+      <li>🗺️ <strong>Mapa</strong>: Explore a distribuição geográfica das emissões per capita</li>
+      <li>🌓 <strong>Modo Escuro</strong>: Altere o tema da interface conforme sua preferência</li>
+    </ul>
+
+    <p><em>Aproveite a experiência e boa análise!</em></p>
+  </div>
+</body>
+</html>

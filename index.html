@@ -388,6 +388,9 @@
       <h3>Dashboard GCAM</h3>
     </div>
     <div class="sidebar-nav">
+      <a class="nav-item" onclick="carregarConteudo('apresentacao.html')" id="menuApresentacao">
+        <i class="fas fa-info-circle"></i> Apresentação
+      </a>
       <a class="nav-item" onclick="carregarConteudo('Grafico_Intera.html')" id="menuGrafico">
         <i class="fas fa-chart-line"></i> Gráfico
       </a>
@@ -464,8 +467,8 @@
           document.getElementById("sidebar").style.display = "flex";
           document.getElementById("menuToggle").style.display = "flex";
           showWelcomeMessage();
-          carregarConteudo('Grafico_Intera.html');
-          document.getElementById("menuGrafico").classList.add("active");
+          carregarConteudo('apresentacao.html');
+          document.getElementById("menuApresentacao").classList.add("active");
         }, 400);
       } else {
         loginBox.classList.add("shake");
