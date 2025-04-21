@@ -44,13 +44,23 @@
     }
 
     .login-box {
-      display: none;
-      background-color: rgba(255, 255, 255, 0.95);
-      padding: 30px;
-      border-radius: 10px;
-      box-shadow: 0 0 20px rgba(0,0,0,0.2);
-      z-index: 2;
-    }
+  opacity: 0;
+  transform: scale(0.9);
+  transition: opacity 0.5s ease, transform 0.5s ease;
+  display: none;
+  background-color: rgba(255, 255, 255, 0.95);
+  padding: 30px;
+  border-radius: 10px;
+  box-shadow: 0 0 20px rgba(0,0,0,0.2);
+  z-index: 2;
+}
+
+.login-box.ativo {
+  display: block;
+  opacity: 1;
+  transform: scale(1);
+}
+
 
     .dark-mode .login-box {
       background-color: rgba(40, 40, 40, 0.95);
@@ -182,7 +192,7 @@
     function mostrarLogin() {
       if (!loginExibido) {
         const box = document.getElementById("loginBox");
-        box.style.display = "block";
+        box.style.display = "ativo";
         document.getElementById("loginTela").removeEventListener("click", mostrarLogin);
         loginExibido = true;
       }
