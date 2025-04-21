@@ -11,9 +11,7 @@
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" />
 
   <style>
-    * {
-      box-sizing: border-box;
-    }
+    * { box-sizing: border-box; }
 
     html, body {
       margin: 0;
@@ -44,23 +42,22 @@
     }
 
     .login-box {
-  opacity: 0;
-  transform: scale(0.9);
-  transition: opacity 0.5s ease, transform 0.5s ease;
-  display: none;
-  background-color: rgba(255, 255, 255, 0.95);
-  padding: 30px;
-  border-radius: 10px;
-  box-shadow: 0 0 20px rgba(0,0,0,0.2);
-  z-index: 2;
-}
+      opacity: 0;
+      transform: scale(0.9);
+      transition: opacity 0.5s ease, transform 0.5s ease;
+      display: none;
+      background-color: rgba(255, 255, 255, 0.95);
+      padding: 30px;
+      border-radius: 10px;
+      box-shadow: 0 0 20px rgba(0,0,0,0.2);
+      z-index: 2;
+    }
 
-.login-box.ativo {
-  display: block;
-  opacity: 1;
-  transform: scale(1);
-}
-
+    .login-box.ativo {
+      display: block;
+      opacity: 1;
+      transform: scale(1);
+    }
 
     .dark-mode .login-box {
       background-color: rgba(40, 40, 40, 0.95);
@@ -131,6 +128,7 @@
       border-radius: 20px;
       font-size: 14px;
       cursor: pointer;
+      display: none; /* Escondido inicialmente */
     }
 
     .dark-mode .modo-toggle {
@@ -164,10 +162,10 @@
 </head>
 <body>
 
-  <!-- Botão modo claro/escuro -->
+  <!-- Botão modo claro/escuro (inicialmente escondido) -->
   <div class="modo-toggle" id="modoToggle">🌙 Modo Escuro</div>
 
-  <!-- Tela inicial com fundo -->
+  <!-- Tela de login -->
   <div class="bg" id="loginTela">
     <div class="login-box" id="loginBox">
       <h2>Senha de Quantificação</h2>
@@ -177,7 +175,7 @@
     </div>
   </div>
 
-  <!-- Conteúdo após login -->
+  <!-- Conteúdo principal -->
   <div id="conteudoDashboard">
     <div class="menu">
       <button onclick="carregarConteudo('Grafico_Intera.html')"><i class="fas fa-chart-line"></i> Ver Gráfico</button>
@@ -192,7 +190,7 @@
     function mostrarLogin() {
       if (!loginExibido) {
         const box = document.getElementById("loginBox");
-        box.style.display = "ativo";
+        box.classList.add("ativo");
         document.getElementById("loginTela").removeEventListener("click", mostrarLogin);
         loginExibido = true;
       }
@@ -200,11 +198,6 @@
 
     window.onload = function () {
       document.getElementById("loginTela").addEventListener("click", mostrarLogin);
-      document.getElementById("modoToggle").addEventListener("click", () => {
-        document.body.classList.toggle("dark-mode");
-        const texto = document.body.classList.contains("dark-mode") ? "☀️ Modo Claro" : "🌙 Modo Escuro";
-        document.getElementById("modoToggle").innerText = texto;
-      });
 
       document.getElementById("senhaInput").addEventListener("keypress", function (e) {
         if (e.key === "Enter") verificarSenha();
@@ -216,7 +209,16 @@
       if (senha === "ambientalgcam") {
         document.getElementById("loginTela").style.display = "none";
         document.getElementById("conteudoDashboard").style.display = "flex";
+        document.getElementById("modoToggle").style.display = "block"; // ← Exibe o botão após login
         carregarConteudo("Grafico_Intera.html");
+
+        // Ativa modo escuro/claro após login
+        document.getElementById("modoToggle").addEventListener("click", () => {
+          document.body.classList.toggle("dark-mode");
+          const texto = document.body.classList.contains("dark-mode") ? "☀️ Modo Claro" : "🌙 Modo Escuro";
+          document.getElementById("modoToggle").innerText = texto;
+        });
+
       } else {
         alert("Senha incorreta. Tente novamente.");
       }
