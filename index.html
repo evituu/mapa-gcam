@@ -515,7 +515,10 @@
     function mostrarLogin() {
       if (!loginExibido) {
         const box = document.getElementById("loginBox");
-        setTimeout(() => box.classList.add("ativo"), 100);
+        box.style.display = "block";
+        setTimeout(() => {
+          box.classList.add("ativo");
+        }, 10);
         document.getElementById("loginTela").removeEventListener("click", mostrarLogin);
         loginExibido = true;
       }
