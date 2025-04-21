@@ -2,138 +2,136 @@
 <html lang="pt-BR">
 <head>
   <meta charset="UTF-8" />
-  <title>Contato</title>
+  <title data-i18n="contact">Contato</title>
   <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;600&display=swap" rel="stylesheet">
   <style>
-    * {
-      box-sizing: border-box;
-    }
-
-    body {
-      margin: 0;
-      padding: 0;
-      font-family: 'Poppins', sans-serif;
-      background-image: url('gcam.png');
-      background-size: cover;
-      background-position: center;
-      background-attachment: fixed;
-      color: #2c3e50;
-    }
-
-    .overlay {
-      backdrop-filter: brightness(0.88) blur(2px);
-      min-height: 100vh;
-      padding: 40px;
-      display: flex;
-      justify-content: center;
-      align-items: center;
-    }
-
-    .container {
-      background-color: rgba(255, 255, 255, 0.95);
-      padding: 40px;
-      max-width: 850px;
-      width: 100%;
-      border-radius: 14px;
-      box-shadow: 0 0 30px rgba(0, 0, 0, 0.25);
-      animation: fadeIn 0.6s ease-out;
-    }
-
-    h1 {
-      color: #34495e;
-      margin-bottom: 20px;
-    }
-
-    p {
-      font-size: 17px;
-      line-height: 1.6;
-      margin-bottom: 12px;
-    }
-
-    ul {
-      margin-top: 10px;
-      padding-left: 20px;
-    }
-
-    li {
-      margin-bottom: 8px;
-    }
-
-    a {
-      color: #2c3e50;
-      text-decoration: underline;
-    }
-
-    .autor {
-      margin-bottom: 20px;
-    }
-
-    @keyframes fadeIn {
-      from { opacity: 0; transform: translateY(20px); }
-      to { opacity: 1; transform: translateY(0); }
-    }
-
-    @media (max-width: 768px) {
-      .container {
-        padding: 25px;
-      }
-
-      p {
-        font-size: 16px;
-      }
-    }
+    /* ... existing code ... */
   </style>
 </head>
 <body>
   <div class="overlay">
     <div class="container">
-      <h1>📬 Contato e Créditos</h1>
+      <h1 data-i18n="contactCredits">📬 Contato e Créditos</h1>
 
-      <p><strong>Este painel interativo foi desenvolvido como parte do trabalho final da disciplina de <u>Economia Ambiental</u></strong>, ministrada pela professora <strong>Márcia Fonseca</strong>, no curso de Ciências Econômicas da <strong>Universidade Federal da Paraíba (UFPB)</strong>.</p>
+      <p data-i18n="projectInfo"><strong>Este painel interativo foi desenvolvido como parte do trabalho final da disciplina de <u>Economia Ambiental</u></strong>, ministrada pela professora <strong>Márcia Fonseca</strong>, no curso de Ciências Econômicas da <strong>Universidade Federal da Paraíba (UFPB)</strong>.</p>
 
-      <p><strong>Autores do Projeto:</strong></p>
+      <p data-i18n="projectAuthors"><strong>Autores do Projeto:</strong></p>
 
       <div class="autor">
-        <strong>👨‍💻 Vitor Eduardo</strong> – Desenvolvedor e analista de dados
+        <span data-i18n="authorVitor"><strong>👨‍💻 Vitor Eduardo</strong> – Desenvolvedor e analista de dados</span>
         <ul>
-          <li>📧 E-mail: <a href="mailto:vitor@example.com">vitor@example.com</a></li>
-          <li>🔗 LinkedIn: <a href="https://www.linkedin.com/in/vitor-eduardo" target="_blank">linkedin.com/in/vitor-eduardo</a></li>
-          <li>📱 Telefone: (83) 9 9999-9999</li>
+          <li data-i18n="email">📧 E-mail: <a href="mailto:vitor@example.com">vitor@example.com</a></li>
+          <li data-i18n="linkedin">🔗 LinkedIn: <a href="https://www.linkedin.com/in/vitor-eduardo" target="_blank">linkedin.com/in/vitor-eduardo</a></li>
+          <li data-i18n="phone">📱 Telefone: (83) 9 9999-9999</li>
         </ul>
       </div>
 
       <div class="autor">
-        <strong>👨‍💻 Wallace Paulo</strong> – Colaborador na análise e estruturação do projeto
+        <span data-i18n="authorWallace"><strong>👨‍💻 Wallace Paulo</strong> – Colaborador na análise e estruturação do projeto</span>
         <ul>
-          <li>📧 E-mail: <a href="mailto:wallace@example.com">wallace@example.com</a></li>
-          <li>🔗 LinkedIn: <a href="https://www.linkedin.com/in/wallace-paulo" target="_blank">linkedin.com/in/wallace-paulo</a></li>
-          <li>📱 Telefone: (83) 9 8888-8888</li>
+          <li data-i18n="emailWallace">📧 E-mail: <a href="mailto:wallace@example.com">wallace@example.com</a></li>
+          <li data-i18n="linkedinWallace">🔗 LinkedIn: <a href="https://www.linkedin.com/in/wallace-paulo" target="_blank">linkedin.com/in/wallace-paulo</a></li>
+          <li data-i18n="phoneWallace">📱 Telefone: (83) 9 8888-8888</li>
         </ul>
       </div>
 
       <div class="autor">
-        <strong>👨‍💻 André Moura</strong> – Colaborador na pesquisa e interpretação dos dados
+        <span data-i18n="authorAndre"><strong>👨‍💻 André Moura</strong> – Colaborador na pesquisa e interpretação dos dados</span>
         <ul>
-          <li>📧 E-mail: <a href="mailto:andre@example.com">andre@example.com</a></li>
-          <li>🔗 LinkedIn: <a href="https://www.linkedin.com/in/andre-moura" target="_blank">linkedin.com/in/andre-moura</a></li>
-          <li>📱 Telefone: (83) 9 7777-7777</li>
+          <li data-i18n="emailAndre">📧 E-mail: <a href="mailto:andre@example.com">andre@example.com</a></li>
+          <li data-i18n="linkedinAndre">🔗 LinkedIn: <a href="https://www.linkedin.com/in/andre-moura" target="_blank">linkedin.com/in/andre-moura</a></li>
+          <li data-i18n="phoneAndre">📱 Telefone: (83) 9 7777-7777</li>
         </ul>
       </div>
 
-      <p><strong>Professora Responsável:</strong></p>
+      <p data-i18n="professor"><strong>Professora Responsável:</strong></p>
       <ul>
-        <li>👩‍🏫 Profa. Márcia Fonseca</li>
-        <li>📧 E-mail: <a href="mailto:marcia.fonseca@ufpb.br">marcia.fonseca@ufpb.br</a></li>
+        <li data-i18n="professorName">👩‍🏫 Profa. Márcia Fonseca</li>
+        <li data-i18n="professorEmail">📧 E-mail: <a href="mailto:marcia.fonseca@ufpb.br">marcia.fonseca@ufpb.br</a></li>
       </ul>
 
-      <p><strong>Instituição:</strong></p>
+      <p data-i18n="institution"><strong>Instituição:</strong></p>
       <ul>
-        <li>🏛️ Universidade Federal da Paraíba (UFPB)</li>
-        <li>📍 Departamento de Economia – CCSA</li>
+        <li data-i18n="university">🏛️ Universidade Federal da Paraíba (UFPB)</li>
+        <li data-i18n="department">📍 Departamento de Economia – CCSA</li>
       </ul>
 
-      <p><strong>Observação:</strong> Este site tem fins acadêmicos e foi construído com tecnologias de código aberto como R, HTML, CSS, JavaScript, e bibliotecas como Plotly e Leaflet.</p>
+      <p data-i18n="note"><strong>Observação:</strong> Este site tem fins acadêmicos e foi construído com tecnologias de código aberto como R, HTML, CSS, JavaScript, e bibliotecas como Plotly e Leaflet.</p>
     </div>
   </div>
+
+  <script>
+    // Sistema de internacionalização
+    const translations = {
+      pt: {
+        contact: "Contato",
+        contactCredits: "📬 Contato e Créditos",
+        projectInfo: "<strong>Este painel interativo foi desenvolvido como parte do trabalho final da disciplina de <u>Economia Ambiental</u></strong>, ministrada pela professora <strong>Márcia Fonseca</strong>, no curso de Ciências Econômicas da <strong>Universidade Federal da Paraíba (UFPB)</strong>.",
+        projectAuthors: "<strong>Autores do Projeto:</strong>",
+        authorVitor: "<strong>👨‍💻 Vitor Eduardo</strong> – Desenvolvedor e analista de dados",
+        email: "📧 E-mail: <a href='mailto:vitor@example.com'>vitor@example.com</a>",
+        linkedin: "🔗 LinkedIn: <a href='https://www.linkedin.com/in/vitor-eduardo' target='_blank'>linkedin.com/in/vitor-eduardo</a>",
+        phone: "📱 Telefone: (83) 9 9999-9999",
+        authorWallace: "<strong>👨‍💻 Wallace Paulo</strong> – Colaborador na análise e estruturação do projeto",
+        emailWallace: "📧 E-mail: <a href='mailto:wallace@example.com'>wallace@example.com</a>",
+        linkedinWallace: "🔗 LinkedIn: <a href='https://www.linkedin.com/in/wallace-paulo' target='_blank'>linkedin.com/in/wallace-paulo</a>",
+        phoneWallace: "📱 Telefone: (83) 9 8888-8888",
+        authorAndre: "<strong>👨‍💻 André Moura</strong> – Colaborador na pesquisa e interpretação dos dados",
+        emailAndre: "📧 E-mail: <a href='mailto:andre@example.com'>andre@example.com</a>",
+        linkedinAndre: "🔗 LinkedIn: <a href='https://www.linkedin.com/in/andre-moura' target='_blank'>linkedin.com/in/andre-moura</a>",
+        phoneAndre: "📱 Telefone: (83) 9 7777-7777",
+        professor: "<strong>Professora Responsável:</strong>",
+        professorName: "👩‍🏫 Profa. Márcia Fonseca",
+        professorEmail: "📧 E-mail: <a href='mailto:marcia.fonseca@ufpb.br'>marcia.fonseca@ufpb.br</a>",
+        institution: "<strong>Instituição:</strong>",
+        university: "🏛️ Universidade Federal da Paraíba (UFPB)",
+        department: "📍 Departamento de Economia – CCSA",
+        note: "<strong>Observação:</strong> Este site tem fins acadêmicos e foi construído com tecnologias de código aberto como R, HTML, CSS, JavaScript, e bibliotecas como Plotly e Leaflet."
+      },
+      en: {
+        contact: "Contact",
+        contactCredits: "📬 Contact and Credits",
+        projectInfo: "<strong>This interactive dashboard was developed as part of the final project for the <u>Environmental Economics</u> course</strong>, taught by Professor <strong>Márcia Fonseca</strong>, in the Economics program at <strong>Federal University of Paraíba (UFPB)</strong>.",
+        projectAuthors: "<strong>Project Authors:</strong>",
+        authorVitor: "<strong>👨‍💻 Vitor Eduardo</strong> – Developer and Data Analyst",
+        email: "📧 Email: <a href='mailto:vitor@example.com'>vitor@example.com</a>",
+        linkedin: "🔗 LinkedIn: <a href='https://www.linkedin.com/in/vitor-eduardo' target='_blank'>linkedin.com/in/vitor-eduardo</a>",
+        phone: "📱 Phone: (83) 9 9999-9999",
+        authorWallace: "<strong>👨‍💻 Wallace Paulo</strong> – Project Analysis and Structure Collaborator",
+        emailWallace: "📧 Email: <a href='mailto:wallace@example.com'>wallace@example.com</a>",
+        linkedinWallace: "🔗 LinkedIn: <a href='https://www.linkedin.com/in/wallace-paulo' target='_blank'>linkedin.com/in/wallace-paulo</a>",
+        phoneWallace: "📱 Phone: (83) 9 8888-8888",
+        authorAndre: "<strong>👨‍💻 André Moura</strong> – Research and Data Interpretation Collaborator",
+        emailAndre: "📧 Email: <a href='mailto:andre@example.com'>andre@example.com</a>",
+        linkedinAndre: "🔗 LinkedIn: <a href='https://www.linkedin.com/in/andre-moura' target='_blank'>linkedin.com/in/andre-moura</a>",
+        phoneAndre: "📱 Phone: (83) 9 7777-7777",
+        professor: "<strong>Responsible Professor:</strong>",
+        professorName: "👩‍🏫 Prof. Márcia Fonseca",
+        professorEmail: "📧 Email: <a href='mailto:marcia.fonseca@ufpb.br'>marcia.fonseca@ufpb.br</a>",
+        institution: "<strong>Institution:</strong>",
+        university: "🏛️ Federal University of Paraíba (UFPB)",
+        department: "📍 Department of Economics – CCSA",
+        note: "<strong>Note:</strong> This website has academic purposes and was built with open source technologies such as R, HTML, CSS, JavaScript, and libraries like Plotly and Leaflet."
+      }
+    };
+
+    function updateTexts() {
+      const elements = document.querySelectorAll('[data-i18n]');
+      const currentLanguage = localStorage.getItem('preferredLanguage') || 'pt';
+      
+      elements.forEach(element => {
+        const key = element.getAttribute('data-i18n');
+        if (translations[currentLanguage][key]) {
+          element.innerHTML = translations[currentLanguage][key];
+        }
+      });
+
+      // Atualiza o atributo lang do HTML
+      document.documentElement.lang = currentLanguage;
+    }
+
+    // Carrega a preferência de idioma ao iniciar
+    document.addEventListener('DOMContentLoaded', updateTexts);
+  </script>
 </body>
 </html>
