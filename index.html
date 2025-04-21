@@ -169,6 +169,40 @@
       background-color: #1a1a1a;
     }
 
+    .sidebar.collapsed {
+      transform: translateX(-250px);
+    }
+
+    .menu-toggle {
+      position: fixed;
+      top: 20px;
+      left: 20px;
+      z-index: 11;
+      background-color: #2c3e50;
+      color: white;
+      border: none;
+      border-radius: 8px;
+      width: 40px;
+      height: 40px;
+      display: none;
+      justify-content: center;
+      align-items: center;
+      cursor: pointer;
+      transition: all 0.3s ease;
+    }
+
+    .dark-mode .menu-toggle {
+      background-color: #1a1a1a;
+    }
+
+    .menu-toggle:hover {
+      background-color: #34495e;
+    }
+
+    .menu-toggle.active {
+      left: 270px;
+    }
+
     .sidebar-header {
       text-align: center;
       margin-bottom: 30px;
@@ -213,6 +247,10 @@
       height: 100vh;
       margin-left: 250px;
       transition: margin-left 0.3s ease;
+    }
+
+    #conteudoDashboard.full-width {
+      margin-left: 0;
     }
 
     .loading-container {
@@ -300,8 +338,7 @@
 
     @media (max-width: 768px) {
       .sidebar {
-        width: 200px;
-        transform: translateX(-200px);
+        transform: translateX(-250px);
       }
 
       .sidebar.active {
@@ -312,14 +349,21 @@
         margin-left: 0;
       }
 
-      .login-box {
-        margin: 20px;
-        padding: 20px;
+      .menu-toggle {
+        display: flex;
+      }
+
+      .menu-toggle.active {
+        left: 210px;
       }
     }
   </style>
 </head>
 <body>
+  <button class="menu-toggle" id="menuToggle">
+    <i class="fas fa-bars"></i>
+  </button>
+
   <div class="bg" id="loginTela">
     <div class="login-box" id="loginBox">
       <h2>Dashboard Ambiental</h2>
@@ -418,6 +462,7 @@
           document.getElementById("loginTela").style.display = "none";
           document.getElementById("conteudoDashboard").style.display = "block";
           document.getElementById("sidebar").style.display = "flex";
+          document.getElementById("menuToggle").style.display = "flex";
           showWelcomeMessage();
           carregarConteudo('Grafico_Intera.html');
           document.getElementById("menuGrafico").classList.add("active");
@@ -473,6 +518,62 @@
 
       iframe.src = pagina;
     }
+
+    // Adiciona função para controlar o menu
+    function toggleMenu() {
+      const sidebar = document.getElementById("sidebar");
+      const menuToggle = document.getElementById("menuToggle");
+      const dashboard = document.getElementById("conteudoDashboard");
+      
+      sidebar.classList.toggle("active");
+      menuToggle.classList.toggle("active");
+      
+      // Em telas grandes, ajusta o margin do conteúdo
+      if (window.innerWidth > 768) {
+        dashboard.classList.toggle("full-width");
+      }
+      
+      // Alterna o ícone
+      const icon = menuToggle.querySelector("i");
+      if (sidebar.classList.contains("active")) {
+        icon.classList.remove("fa-bars");
+        icon.classList.add("fa-times");
+      } else {
+        icon.classList.remove("fa-times");
+        icon.classList.add("fa-bars");
+      }
+    }
+
+    // Adiciona evento de clique ao botão de menu
+    document.getElementById("menuToggle").addEventListener("click", toggleMenu);
+
+    // Fecha o menu ao clicar em um item em telas pequenas
+    document.querySelectorAll(".nav-item").forEach(item => {
+      item.addEventListener("click", () => {
+        if (window.innerWidth <= 768) {
+          toggleMenu();
+        }
+      });
+    });
+
+    // Ajusta o layout ao redimensionar a janela
+    window.addEventListener("resize", () => {
+      const sidebar = document.getElementById("sidebar");
+      const menuToggle = document.getElementById("menuToggle");
+      const dashboard = document.getElementById("conteudoDashboard");
+      
+      if (window.innerWidth > 768) {
+        menuToggle.style.display = "none";
+        sidebar.style.display = "flex";
+        sidebar.classList.remove("active");
+        dashboard.classList.remove("full-width");
+      } else {
+        menuToggle.style.display = "flex";
+        if (!sidebar.classList.contains("active")) {
+          dashboard.classList.add("full-width");
+        }
+      }
+    });
   </script>
 </body>
 </html>
