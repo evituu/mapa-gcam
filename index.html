@@ -16,11 +16,11 @@
   <style>
     * {
       box-sizing: border-box;
+      margin: 0;
+      padding: 0;
     }
 
     html, body {
-      margin: 0;
-      padding: 0;
       height: 100%;
       font-family: 'Poppins', sans-serif;
       transition: background 0.4s, color 0.4s;
@@ -86,7 +86,23 @@
       margin-bottom: 20px;
     }
 
-    input[type="password"] {
+    .input-group .toggle-password {
+      position: absolute;
+      right: 10px;
+      top: 50%;
+      transform: translateY(-50%);
+      cursor: pointer;
+      color: #666;
+      padding: 5px;
+      z-index: 2;
+    }
+
+    .dark-mode .input-group .toggle-password {
+      color: #999;
+    }
+
+    input[type="password"],
+    input[type="text"] {
       width: 100%;
       padding: 12px;
       font-size: 16px;
@@ -95,15 +111,18 @@
       transition: all 0.3s;
       background: transparent;
       color: inherit;
+      padding-right: 40px;
     }
 
-    input[type="password"]:focus {
+    input[type="password"]:focus,
+    input[type="text"]:focus {
       border-color: #2c3e50;
       outline: none;
       box-shadow: 0 0 0 3px rgba(44, 62, 80, 0.1);
     }
 
-    .dark-mode input[type="password"] {
+    .dark-mode input[type="password"],
+    .dark-mode input[type="text"] {
       border-color: #444;
     }
 
@@ -131,50 +150,69 @@
       transform: translateY(0);
     }
 
-    .modo-toggle {
+    .sidebar {
       position: fixed;
-      top: 20px;
-      right: 20px;
-      z-index: 5;
-      background-color: rgba(255, 255, 255, 0.9);
-      padding: 10px 16px;
-      border-radius: 25px;
-      font-size: 14px;
-      cursor: pointer;
+      left: 0;
+      top: 0;
+      height: 100%;
+      width: 250px;
+      background-color: #2c3e50;
+      color: white;
+      padding: 20px;
       display: none;
-      box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+      flex-direction: column;
+      z-index: 10;
       transition: all 0.3s ease;
     }
 
-    .modo-toggle:hover {
-      transform: scale(1.05);
+    .dark-mode .sidebar {
+      background-color: #1a1a1a;
     }
 
-    .dark-mode .modo-toggle {
-      background-color: #333;
+    .sidebar-header {
+      text-align: center;
+      margin-bottom: 30px;
+      padding: 20px 0;
+      border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+    }
+
+    .sidebar-nav {
+      display: flex;
+      flex-direction: column;
+      gap: 10px;
+    }
+
+    .nav-item {
+      display: flex;
+      align-items: center;
+      padding: 12px 15px;
       color: white;
+      text-decoration: none;
+      border-radius: 8px;
+      transition: all 0.3s ease;
+      cursor: pointer;
+    }
+
+    .nav-item:hover {
+      background-color: rgba(255, 255, 255, 0.1);
+    }
+
+    .nav-item.active {
+      background-color: rgba(255, 255, 255, 0.2);
+    }
+
+    .nav-item i {
+      margin-right: 10px;
+      width: 20px;
+      text-align: center;
     }
 
     #conteudoDashboard {
       display: none;
       width: 100vw;
       height: 100vh;
-      flex-direction: column;
-      overflow: hidden;
-    }
-
-    .menu {
-      background-color: #2c3e50;
-      padding: 15px;
-      display: flex;
-      justify-content: center;
-      gap: 20px;
-      flex-wrap: wrap;
-      transition: background-color 0.4s;
-    }
-
-    .dark-mode .menu {
-      background-color: #222;
+      margin-left: 250px;
+      transition: margin-left 0.3s ease;
     }
 
     .loading-container {
@@ -183,6 +221,7 @@
       display: flex;
       justify-content: center;
       align-items: center;
+      height: 100%;
     }
 
     .loading {
@@ -210,9 +249,8 @@
     }
 
     iframe {
-      flex: 1;
       width: 100%;
-      min-height: 400px;
+      height: 100%;
       border: none;
       opacity: 1;
       transition: opacity 0.3s;
@@ -222,23 +260,24 @@
       opacity: 0.5;
     }
 
-    @media (max-width: 768px) {
-      .menu {
-        flex-direction: column;
-        align-items: center;
-        gap: 10px;
-        padding: 10px;
-      }
+    .welcome-message {
+      position: fixed;
+      top: 20px;
+      right: 20px;
+      background-color: rgba(46, 204, 113, 0.9);
+      color: white;
+      padding: 15px 25px;
+      border-radius: 8px;
+      box-shadow: 0 4px 12px rgba(0,0,0,0.1);
+      z-index: 1000;
+      transform: translateY(-100px);
+      opacity: 0;
+      transition: all 0.5s cubic-bezier(0.4, 0, 0.2, 1);
+    }
 
-      button {
-        width: 90%;
-        max-width: 300px;
-      }
-
-      .login-box {
-        margin: 20px;
-        padding: 20px;
-      }
+    .welcome-message.show {
+      transform: translateY(0);
+      opacity: 1;
     }
 
     .error-message {
@@ -258,29 +297,66 @@
       30%, 50%, 70% { transform: translate3d(-4px, 0, 0); }
       40%, 60% { transform: translate3d(4px, 0, 0); }
     }
+
+    @media (max-width: 768px) {
+      .sidebar {
+        width: 200px;
+        transform: translateX(-200px);
+      }
+
+      .sidebar.active {
+        transform: translateX(0);
+      }
+
+      #conteudoDashboard {
+        margin-left: 0;
+      }
+
+      .login-box {
+        margin: 20px;
+        padding: 20px;
+      }
+    }
   </style>
 </head>
 <body>
-
-  <div class="modo-toggle" id="modoToggle">🌙 Modo Escuro</div>
-
   <div class="bg" id="loginTela">
     <div class="login-box" id="loginBox">
       <h2>Dashboard Ambiental</h2>
       <p>Digite a senha para acessar os dados</p>
       <div class="input-group">
         <input type="password" id="senhaInput" placeholder="Digite sua senha..." autofocus />
+        <span class="toggle-password" onclick="togglePassword()">
+          <i class="fas fa-eye"></i>
+        </span>
       </div>
       <button onclick="verificarSenha()"><i class="fas fa-lock"></i> Entrar</button>
       <div class="error-message" id="errorMessage">Senha incorreta. Tente novamente.</div>
     </div>
   </div>
 
-  <div id="conteudoDashboard">
-    <div class="menu">
-      <button onclick="carregarConteudo('Grafico_Intera.html')"><i class="fas fa-chart-line"></i> Gráfico Interativo</button>
-      <button onclick="carregarConteudo('GCAM_ECONOMIA_AMBIENTAL6.html')"><i class="fas fa-globe-americas"></i> Mapa de Dados</button>
+  <div class="welcome-message" id="welcomeMessage">
+    <i class="fas fa-check-circle"></i> Bem-vindo ao Painel do Modelo GCAM!
+  </div>
+
+  <nav class="sidebar" id="sidebar">
+    <div class="sidebar-header">
+      <h3>Dashboard GCAM</h3>
     </div>
+    <div class="sidebar-nav">
+      <a class="nav-item" onclick="carregarConteudo('Grafico_Intera.html')" id="menuGrafico">
+        <i class="fas fa-chart-line"></i> Gráfico
+      </a>
+      <a class="nav-item" onclick="carregarConteudo('GCAM_ECONOMIA_AMBIENTAL6.html')" id="menuMapa">
+        <i class="fas fa-map"></i> Mapa
+      </a>
+      <a class="nav-item" onclick="toggleDarkMode()" id="toggleModo">
+        <i class="fas fa-moon"></i> Modo Escuro
+      </a>
+    </div>
+  </nav>
+
+  <div id="conteudoDashboard">
     <div class="loading-container">
       <div class="loading" id="loading"></div>
       <iframe id="conteudoFrame" src=""></iframe>
@@ -299,9 +375,32 @@
       }
     }
 
+    function togglePassword() {
+      const senhaInput = document.getElementById("senhaInput");
+      const toggleIcon = document.querySelector(".toggle-password i");
+      
+      if (senhaInput.type === "password") {
+        senhaInput.type = "text";
+        toggleIcon.classList.remove("fa-eye");
+        toggleIcon.classList.add("fa-eye-slash");
+      } else {
+        senhaInput.type = "password";
+        toggleIcon.classList.remove("fa-eye-slash");
+        toggleIcon.classList.add("fa-eye");
+      }
+    }
+
+    function showWelcomeMessage() {
+      const welcomeMessage = document.getElementById("welcomeMessage");
+      welcomeMessage.classList.add("show");
+      setTimeout(() => {
+        welcomeMessage.classList.remove("show");
+      }, 3000);
+    }
+
     window.onload = function() {
       document.getElementById("loginTela").addEventListener("click", mostrarLogin);
-      mostrarLogin(); // Mostra login automaticamente
+      mostrarLogin();
 
       document.getElementById("senhaInput").addEventListener("keypress", function(e) {
         if (e.key === "Enter") verificarSenha();
@@ -317,9 +416,11 @@
         document.getElementById("loginTela").style.opacity = 0;
         setTimeout(() => {
           document.getElementById("loginTela").style.display = "none";
-          document.getElementById("conteudoDashboard").style.display = "flex";
-          document.getElementById("modoToggle").style.display = "block";
+          document.getElementById("conteudoDashboard").style.display = "block";
+          document.getElementById("sidebar").style.display = "flex";
+          showWelcomeMessage();
           carregarConteudo('Grafico_Intera.html');
+          document.getElementById("menuGrafico").classList.add("active");
         }, 400);
       } else {
         loginBox.classList.add("shake");
@@ -330,15 +431,37 @@
       }
     }
 
-    document.getElementById("modoToggle").addEventListener("click", () => {
+    function toggleDarkMode() {
       document.body.classList.toggle("dark-mode");
-      const texto = document.body.classList.contains("dark-mode") ? "☀️ Modo Claro" : "🌙 Modo Escuro";
-      document.getElementById("modoToggle").innerText = texto;
-    });
+      const toggleButton = document.getElementById("toggleModo");
+      const icon = toggleButton.querySelector("i");
+      const text = toggleButton.textContent.trim();
+      
+      if (document.body.classList.contains("dark-mode")) {
+        icon.classList.remove("fa-moon");
+        icon.classList.add("fa-sun");
+        toggleButton.innerHTML = '<i class="fas fa-sun"></i> Modo Claro';
+      } else {
+        icon.classList.remove("fa-sun");
+        icon.classList.add("fa-moon");
+        toggleButton.innerHTML = '<i class="fas fa-moon"></i> Modo Escuro';
+      }
+    }
 
     function carregarConteudo(pagina) {
       const loading = document.getElementById("loading");
       const iframe = document.getElementById("conteudoFrame");
+      const menuItems = document.querySelectorAll(".nav-item");
+      
+      // Remove active class from all menu items
+      menuItems.forEach(item => item.classList.remove("active"));
+      
+      // Add active class to clicked menu item
+      if (pagina === 'Grafico_Intera.html') {
+        document.getElementById("menuGrafico").classList.add("active");
+      } else if (pagina === 'GCAM_ECONOMIA_AMBIENTAL6.html') {
+        document.getElementById("menuMapa").classList.add("active");
+      }
       
       loading.style.display = "block";
       iframe.style.opacity = "0.5";
@@ -351,6 +474,5 @@
       iframe.src = pagina;
     }
   </script>
-
 </body>
 </html>
