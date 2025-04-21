@@ -441,10 +441,10 @@
 
   <div class="bg" id="loginTela">
     <div class="login-box" id="loginBox">
-      <h2>Dashboard Ambiental</h2>
-      <p>Digite a senha para acessar os dados</p>
+      <h2>Dashboard - Projeção GCAM</h2>
+      <p>Digite o código para quantificar os dados</p>
       <div class="input-group">
-        <input type="password" id="senhaInput" placeholder="Digite sua senha..." autofocus />
+        <input type="password" id="senhaInput" placeholder="Digite o código de acesso..." autofocus />
         <span class="toggle-password" onclick="togglePassword()">
           <i class="fas fa-eye"></i>
         </span>
@@ -560,7 +560,7 @@
       const loginBox = document.getElementById("loginBox");
       const errorMessage = document.getElementById("errorMessage");
 
-      if (senha === "ambientalgcam") {
+      if (senha === "gcam123") {
         document.getElementById("loginTela").style.opacity = 0;
         setTimeout(() => {
           document.getElementById("loginTela").style.display = "none";
