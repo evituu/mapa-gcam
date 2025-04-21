@@ -13,7 +13,6 @@
       padding: 0;
       height: 100%;
       font-family: Arial, sans-serif;
-      cursor: pointer;
     }
 
     .bg {
@@ -28,12 +27,13 @@
     }
 
     .login-box {
+      display: none;
       background-color: rgba(255, 255, 255, 0.9);
       padding: 30px;
       border-radius: 10px;
       text-align: center;
       box-shadow: 0 0 15px rgba(0,0,0,0.3);
-      display: none; /* Oculta no início */
+      z-index: 2;
     }
 
     input[type="password"] {
@@ -64,6 +64,7 @@
       width: 100vw;
       height: 100vh;
       flex-direction: column;
+      overflow: hidden;
     }
 
     .menu {
@@ -72,15 +73,17 @@
       display: flex;
       justify-content: center;
       gap: 20px;
+      flex-wrap: wrap;
     }
 
     iframe {
       flex: 1;
       width: 100%;
+      min-height: 400px;
       border: none;
     }
 
-    /* === RESPONSIVO === */
+    /* Responsividade */
     @media (max-width: 768px) {
       .menu {
         flex-direction: column;
@@ -92,13 +95,23 @@
         width: 90%;
         max-width: 300px;
       }
+
+      iframe {
+        min-height: 60vh;
+      }
+    }
+
+    @media (max-width: 480px) {
+      iframe {
+        min-height: 50vh;
+      }
     }
   </style>
 </head>
 <body>
 
-  <!-- Tela de fundo com login oculto -->
-  <div class="bg" id="loginTela" onclick="mostrarLogin()">
+  <!-- Tela inicial com fundo -->
+  <div class="bg" id="loginTela">
     <div class="login-box" id="loginBox">
       <h2>Digite a senha</h2>
       <input type="password" id="senhaInput" placeholder="Senha..." />
@@ -107,7 +120,7 @@
     </div>
   </div>
 
-  <!-- Dashboard -->
+  <!-- Conteúdo após login -->
   <div id="conteudoDashboard">
     <div class="menu">
       <button onclick="carregarConteudo('Grafico_Intera.html')">📈 Ver Gráfico</button>
@@ -121,9 +134,15 @@
 
     function mostrarLogin() {
       if (!loginExibido) {
-        document.getElementById("loginBox").style.display = "block";
+        const box = document.getElementById("loginBox");
+        box.style.display = "block";
+        document.getElementById("loginTela").removeEventListener("click", mostrarLogin);
         loginExibido = true;
       }
+    }
+
+    window.onload = function () {
+      document.getElementById("loginTela").addEventListener("click", mostrarLogin);
     }
 
     function verificarSenha() {
