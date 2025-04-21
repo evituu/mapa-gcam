@@ -4,13 +4,16 @@
   <meta charset="UTF-8" />
   <title>Dashboard Ambiental</title>
   <style>
-    * { box-sizing: border-box; }
+    * {
+      box-sizing: border-box;
+    }
 
     html, body {
       margin: 0;
       padding: 0;
       height: 100%;
       font-family: Arial, sans-serif;
+      cursor: pointer;
     }
 
     .bg {
@@ -30,6 +33,7 @@
       border-radius: 10px;
       text-align: center;
       box-shadow: 0 0 15px rgba(0,0,0,0.3);
+      display: none; /* Oculta no início */
     }
 
     input[type="password"] {
@@ -48,6 +52,7 @@
       border-radius: 5px;
       cursor: pointer;
       margin: 5px;
+      transition: background-color 0.3s ease;
     }
 
     button:hover {
@@ -74,13 +79,27 @@
       width: 100%;
       border: none;
     }
+
+    /* === RESPONSIVO === */
+    @media (max-width: 768px) {
+      .menu {
+        flex-direction: column;
+        align-items: center;
+        gap: 10px;
+      }
+
+      button {
+        width: 90%;
+        max-width: 300px;
+      }
+    }
   </style>
 </head>
 <body>
 
-  <!-- Tela de login -->
-  <div class="bg" id="loginTela">
-    <div class="login-box">
+  <!-- Tela de fundo com login oculto -->
+  <div class="bg" id="loginTela" onclick="mostrarLogin()">
+    <div class="login-box" id="loginBox">
       <h2>Digite a senha</h2>
       <input type="password" id="senhaInput" placeholder="Senha..." />
       <br>
@@ -88,7 +107,7 @@
     </div>
   </div>
 
-  <!-- Conteúdo protegido -->
+  <!-- Dashboard -->
   <div id="conteudoDashboard">
     <div class="menu">
       <button onclick="carregarConteudo('Grafico_Intera.html')">📈 Ver Gráfico</button>
@@ -98,12 +117,21 @@
   </div>
 
   <script>
+    let loginExibido = false;
+
+    function mostrarLogin() {
+      if (!loginExibido) {
+        document.getElementById("loginBox").style.display = "block";
+        loginExibido = true;
+      }
+    }
+
     function verificarSenha() {
       const senha = document.getElementById("senhaInput").value;
       if (senha === "ambientalgcam") {
         document.getElementById("loginTela").style.display = "none";
         document.getElementById("conteudoDashboard").style.display = "flex";
-        carregarConteudo("Grafico_Intera.html"); // Carrega gráfico por padrão
+        carregarConteudo("Grafico_Intera.html");
       } else {
         alert("Senha incorreta. Acesso negado!");
       }
