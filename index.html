@@ -225,20 +225,95 @@
       border-radius: 8px;
       transition: all 0.3s ease;
       cursor: pointer;
+      position: relative;
     }
 
-    .nav-item:hover {
-      background-color: rgba(255, 255, 255, 0.1);
+    .share-dropdown {
+      position: absolute;
+      left: 100%;
+      top: 0;
+      background-color: #fff;
+      border-radius: 8px;
+      box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+      padding: 10px;
+      display: none;
+      z-index: 1000;
+      min-width: 200px;
+      margin-left: 10px;
     }
 
-    .nav-item.active {
-      background-color: rgba(255, 255, 255, 0.2);
+    .dark-mode .share-dropdown {
+      background-color: #2c3e50;
     }
 
-    .nav-item i {
+    .share-dropdown.active {
+      display: block;
+      animation: fadeIn 0.3s ease-out;
+    }
+
+    .share-button {
+      display: flex;
+      align-items: center;
+      padding: 10px;
+      color: #2c3e50;
+      text-decoration: none;
+      border-radius: 6px;
+      transition: all 0.3s ease;
+      cursor: pointer;
+      margin-bottom: 5px;
+      font-size: 14px;
+    }
+
+    .dark-mode .share-button {
+      color: #fff;
+    }
+
+    .share-button:last-child {
+      margin-bottom: 0;
+    }
+
+    .share-button:hover {
+      background-color: rgba(0,0,0,0.1);
+    }
+
+    .dark-mode .share-button:hover {
+      background-color: rgba(255,255,255,0.1);
+    }
+
+    .share-button i {
       margin-right: 10px;
       width: 20px;
       text-align: center;
+    }
+
+    .copied-message {
+      position: fixed;
+      bottom: 20px;
+      left: 50%;
+      transform: translateX(-50%);
+      background-color: #2ecc71;
+      color: white;
+      padding: 10px 20px;
+      border-radius: 8px;
+      box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+      display: none;
+      z-index: 1000;
+    }
+
+    .copied-message.show {
+      display: block;
+      animation: fadeInUp 0.3s ease-out;
+    }
+
+    @keyframes fadeInUp {
+      from {
+        opacity: 0;
+        transform: translate(-50%, 20px);
+      }
+      to {
+        opacity: 1;
+        transform: translate(-50%, 0);
+      }
     }
 
     #conteudoDashboard {
@@ -400,6 +475,23 @@
       <a class="nav-item" onclick="carregarConteudo('contato.html')" id="menuContato">
         <i class="fas fa-address-card"></i> Contato
       </a>
+      <a class="nav-item" id="menuCompartilhar">
+        <i class="fas fa-share-alt"></i> Compartilhar
+        <div class="share-dropdown" id="shareDropdown">
+          <a class="share-button" onclick="compartilhar('facebook')">
+            <i class="fab fa-facebook"></i> Facebook
+          </a>
+          <a class="share-button" onclick="compartilhar('twitter')">
+            <i class="fab fa-twitter"></i> Twitter
+          </a>
+          <a class="share-button" onclick="compartilhar('whatsapp')">
+            <i class="fab fa-whatsapp"></i> WhatsApp
+          </a>
+          <a class="share-button" onclick="copiarLink()">
+            <i class="fas fa-link"></i> Copiar Link
+          </a>
+        </div>
+      </a>
       <a class="nav-item" onclick="toggleDarkMode()" id="toggleModo">
         <i class="fas fa-moon"></i> Modo Escuro
       </a>
@@ -411,6 +503,10 @@
       <div class="loading" id="loading"></div>
       <iframe id="conteudoFrame" src=""></iframe>
     </div>
+  </div>
+
+  <div class="copied-message" id="copiedMessage">
+    Link copiado com sucesso! ✅
   </div>
 
   <script>
@@ -580,6 +676,57 @@
         }
       }
     });
+
+    // Funções de compartilhamento
+    document.getElementById('menuCompartilhar').addEventListener('click', function(e) {
+      e.stopPropagation();
+      const dropdown = document.getElementById('shareDropdown');
+      dropdown.classList.toggle('active');
+    });
+
+    // Fecha o dropdown quando clicar fora dele
+    document.addEventListener('click', function(e) {
+      const dropdown = document.getElementById('shareDropdown');
+      if (!e.target.closest('#menuCompartilhar')) {
+        dropdown.classList.remove('active');
+      }
+    });
+
+    function compartilhar(rede) {
+      const url = encodeURIComponent(window.location.href);
+      const titulo = encodeURIComponent('Dashboard GCAM - Economia Ambiental UFPB');
+      let shareUrl = '';
+
+      switch(rede) {
+        case 'facebook':
+          shareUrl = `https://www.facebook.com/sharer/sharer.php?u=${url}`;
+          break;
+        case 'twitter':
+          shareUrl = `https://twitter.com/intent/tweet?url=${url}&text=${titulo}`;
+          break;
+        case 'whatsapp':
+          shareUrl = `https://api.whatsapp.com/send?text=${titulo}%20${url}`;
+          break;
+      }
+
+      if (shareUrl) {
+        window.open(shareUrl, '_blank', 'width=600,height=400');
+      }
+
+      document.getElementById('shareDropdown').classList.remove('active');
+    }
+
+    function copiarLink() {
+      const url = window.location.href;
+      navigator.clipboard.writeText(url).then(() => {
+        const message = document.getElementById('copiedMessage');
+        message.classList.add('show');
+        setTimeout(() => {
+          message.classList.remove('show');
+        }, 3000);
+      });
+      document.getElementById('shareDropdown').classList.remove('active');
+    }
   </script>
 </body>
 </html>
