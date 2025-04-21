@@ -3,6 +3,13 @@
 <head>
   <meta charset="UTF-8" />
   <title>Dashboard Ambiental</title>
+
+  <!-- Fonte moderna -->
+  <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;600&display=swap" rel="stylesheet">
+
+  <!-- Font Awesome via CDN gratuita -->
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" />
+
   <style>
     * {
       box-sizing: border-box;
@@ -12,28 +19,42 @@
       margin: 0;
       padding: 0;
       height: 100%;
-      font-family: Arial, sans-serif;
+      font-family: 'Poppins', sans-serif;
+      transition: background 0.4s, color 0.4s;
+    }
+
+    body.dark-mode {
+      background-color: #1e1e1e;
+      color: #f0f0f0;
     }
 
     .bg {
-      background-image: url('quantum.png');
-      background-size: cover;
-      background-position: center;
+      background: linear-gradient(135deg, #dceefb, #fef6e4);
       height: 100vh;
       width: 100vw;
       display: flex;
       justify-content: center;
       align-items: center;
+      text-align: center;
+      transition: background 0.4s;
+    }
+
+    .dark-mode .bg {
+      background: linear-gradient(135deg, #2c3e50, #34495e);
     }
 
     .login-box {
       display: none;
-      background-color: rgba(255, 255, 255, 0.9);
+      background-color: rgba(255, 255, 255, 0.95);
       padding: 30px;
       border-radius: 10px;
-      text-align: center;
-      box-shadow: 0 0 15px rgba(0,0,0,0.3);
+      box-shadow: 0 0 20px rgba(0,0,0,0.2);
       z-index: 2;
+    }
+
+    .dark-mode .login-box {
+      background-color: rgba(40, 40, 40, 0.95);
+      color: white;
     }
 
     input[type="password"] {
@@ -41,6 +62,8 @@
       width: 220px;
       font-size: 16px;
       margin-bottom: 12px;
+      border-radius: 5px;
+      border: 1px solid #ccc;
     }
 
     button {
@@ -74,6 +97,11 @@
       justify-content: center;
       gap: 20px;
       flex-wrap: wrap;
+      transition: background-color 0.4s;
+    }
+
+    .dark-mode .menu {
+      background-color: #222;
     }
 
     iframe {
@@ -83,7 +111,23 @@
       border: none;
     }
 
-    /* Responsividade */
+    .modo-toggle {
+      position: absolute;
+      top: 10px;
+      right: 10px;
+      z-index: 5;
+      background-color: #ffffffaa;
+      padding: 8px 12px;
+      border-radius: 20px;
+      font-size: 14px;
+      cursor: pointer;
+    }
+
+    .dark-mode .modo-toggle {
+      background-color: #444;
+      color: white;
+    }
+
     @media (max-width: 768px) {
       .menu {
         flex-direction: column;
@@ -110,21 +154,24 @@
 </head>
 <body>
 
+  <!-- Botão modo claro/escuro -->
+  <div class="modo-toggle" id="modoToggle">🌙 Modo Escuro</div>
+
   <!-- Tela inicial com fundo -->
   <div class="bg" id="loginTela">
     <div class="login-box" id="loginBox">
-      <h2>Digite a senha</h2>
-      <input type="password" id="senhaInput" placeholder="Senha..." />
+      <h2>Senha de Quantificação</h2>
+      <input type="password" id="senhaInput" placeholder="Senha..." autofocus />
       <br>
-      <button onclick="verificarSenha()">Entrar</button>
+      <button onclick="verificarSenha()"><i class="fas fa-lock"></i> Entrar</button>
     </div>
   </div>
 
   <!-- Conteúdo após login -->
   <div id="conteudoDashboard">
     <div class="menu">
-      <button onclick="carregarConteudo('Grafico_Intera.html')">📈 Ver Gráfico</button>
-      <button onclick="carregarConteudo('GCAM_ECONOMIA_AMBIENTAL6.html')">🗺️ Ver Mapa</button>
+      <button onclick="carregarConteudo('Grafico_Intera.html')"><i class="fas fa-chart-line"></i> Ver Gráfico</button>
+      <button onclick="carregarConteudo('GCAM_ECONOMIA_AMBIENTAL6.html')"><i class="fas fa-globe-americas"></i> Ver Mapa</button>
     </div>
     <iframe id="conteudoFrame" src=""></iframe>
   </div>
@@ -143,7 +190,16 @@
 
     window.onload = function () {
       document.getElementById("loginTela").addEventListener("click", mostrarLogin);
-    }
+      document.getElementById("modoToggle").addEventListener("click", () => {
+        document.body.classList.toggle("dark-mode");
+        const texto = document.body.classList.contains("dark-mode") ? "☀️ Modo Claro" : "🌙 Modo Escuro";
+        document.getElementById("modoToggle").innerText = texto;
+      });
+
+      document.getElementById("senhaInput").addEventListener("keypress", function (e) {
+        if (e.key === "Enter") verificarSenha();
+      });
+    };
 
     function verificarSenha() {
       const senha = document.getElementById("senhaInput").value;
@@ -152,7 +208,7 @@
         document.getElementById("conteudoDashboard").style.display = "flex";
         carregarConteudo("Grafico_Intera.html");
       } else {
-        alert("Senha incorreta. Acesso negado!");
+        alert("Senha incorreta. Tente novamente.");
       }
     }
 
