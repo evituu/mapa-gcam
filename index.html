@@ -2,8 +2,12 @@
 <html lang="pt-BR">
 <head>
   <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Dashboard Ambiental</title>
 
+  <!-- Favicon -->
+  <link rel="icon" type="image/png" href="https://img.icons8.com/color/48/000000/environment.png">
+  
   <!-- Fonte moderna -->
   <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;600&display=swap" rel="stylesheet">
   <!-- Font Awesome para ícones -->
@@ -28,7 +32,7 @@
     }
 
     .bg {
-      background-image: url('quantum.png'); /* ✅ Certifique-se de que o arquivo esteja na mesma pasta */
+      background-image: url('quantum.png');
       background-size: cover;
       background-position: center;
       height: 100vh;
@@ -37,19 +41,33 @@
       justify-content: center;
       align-items: center;
       text-align: center;
+      transition: all 0.4s ease;
+      position: relative;
+    }
+
+    .bg::before {
+      content: '';
+      position: absolute;
+      top: 0;
+      left: 0;
+      right: 0;
+      bottom: 0;
+      background: rgba(0, 0, 0, 0.5);
       transition: background 0.4s;
     }
 
     .login-box {
       opacity: 0;
       transform: scale(0.9);
-      transition: opacity 0.5s ease, transform 0.5s ease;
+      transition: all 0.5s cubic-bezier(0.4, 0, 0.2, 1);
       display: none;
       background-color: rgba(255, 255, 255, 0.95);
-      padding: 30px;
-      border-radius: 10px;
-      box-shadow: 0 0 20px rgba(0,0,0,0.2);
+      padding: 40px;
+      border-radius: 15px;
+      box-shadow: 0 8px 32px rgba(0,0,0,0.1);
       z-index: 2;
+      max-width: 400px;
+      width: 90%;
     }
 
     .login-box.ativo {
@@ -63,46 +81,77 @@
       color: white;
     }
 
+    .input-group {
+      position: relative;
+      margin-bottom: 20px;
+    }
+
     input[type="password"] {
-      padding: 10px;
-      width: 220px;
+      width: 100%;
+      padding: 12px;
       font-size: 16px;
-      margin-bottom: 12px;
-      border-radius: 5px;
-      border: 1px solid #ccc;
+      border: 2px solid #ddd;
+      border-radius: 8px;
+      transition: all 0.3s;
+      background: transparent;
+      color: inherit;
+    }
+
+    input[type="password"]:focus {
+      border-color: #2c3e50;
+      outline: none;
+      box-shadow: 0 0 0 3px rgba(44, 62, 80, 0.1);
+    }
+
+    .dark-mode input[type="password"] {
+      border-color: #444;
     }
 
     button {
-      padding: 10px 20px;
+      padding: 12px 24px;
       font-size: 16px;
       background-color: #2c3e50;
       color: white;
       border: none;
-      border-radius: 5px;
+      border-radius: 8px;
       cursor: pointer;
       margin: 5px;
-      transition: background-color 0.3s ease;
+      transition: all 0.3s ease;
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
     }
 
     button:hover {
       background-color: #34495e;
+      transform: translateY(-2px);
+    }
+
+    button:active {
+      transform: translateY(0);
     }
 
     .modo-toggle {
-      position: absolute;
-      top: 10px;
-      right: 10px;
+      position: fixed;
+      top: 20px;
+      right: 20px;
       z-index: 5;
-      background-color: #ffffffaa;
-      padding: 8px 12px;
-      border-radius: 20px;
+      background-color: rgba(255, 255, 255, 0.9);
+      padding: 10px 16px;
+      border-radius: 25px;
       font-size: 14px;
       cursor: pointer;
-      display: none; /* ✅ só aparece após login */
+      display: none;
+      box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+      transition: all 0.3s ease;
+    }
+
+    .modo-toggle:hover {
+      transform: scale(1.05);
     }
 
     .dark-mode .modo-toggle {
-      background-color: #444;
+      background-color: #333;
       color: white;
     }
 
@@ -116,7 +165,7 @@
 
     .menu {
       background-color: #2c3e50;
-      padding: 10px;
+      padding: 15px;
       display: flex;
       justify-content: center;
       gap: 20px;
@@ -128,11 +177,49 @@
       background-color: #222;
     }
 
+    .loading-container {
+      position: relative;
+      flex: 1;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+    }
+
+    .loading {
+      display: none;
+      position: absolute;
+      top: 50%;
+      left: 50%;
+      transform: translate(-50%, -50%);
+    }
+
+    .loading::after {
+      content: '';
+      width: 50px;
+      height: 50px;
+      border: 5px solid #f3f3f3;
+      border-top: 5px solid #2c3e50;
+      border-radius: 50%;
+      animation: spin 1s linear infinite;
+      display: block;
+    }
+
+    @keyframes spin {
+      0% { transform: rotate(0deg); }
+      100% { transform: rotate(360deg); }
+    }
+
     iframe {
       flex: 1;
       width: 100%;
       min-height: 400px;
       border: none;
+      opacity: 1;
+      transition: opacity 0.3s;
+    }
+
+    iframe.loading {
+      opacity: 0.5;
     }
 
     @media (max-width: 768px) {
@@ -140,6 +227,7 @@
         flex-direction: column;
         align-items: center;
         gap: 10px;
+        padding: 10px;
       }
 
       button {
@@ -147,40 +235,56 @@
         max-width: 300px;
       }
 
-      iframe {
-        min-height: 60vh;
+      .login-box {
+        margin: 20px;
+        padding: 20px;
       }
     }
 
-    @media (max-width: 480px) {
-      iframe {
-        min-height: 50vh;
-      }
+    .error-message {
+      color: #e74c3c;
+      margin-top: 10px;
+      font-size: 14px;
+      display: none;
+    }
+
+    .shake {
+      animation: shake 0.5s cubic-bezier(.36,.07,.19,.97) both;
+    }
+
+    @keyframes shake {
+      10%, 90% { transform: translate3d(-1px, 0, 0); }
+      20%, 80% { transform: translate3d(2px, 0, 0); }
+      30%, 50%, 70% { transform: translate3d(-4px, 0, 0); }
+      40%, 60% { transform: translate3d(4px, 0, 0); }
     }
   </style>
 </head>
 <body>
 
-  <!-- Botão de modo claro/escuro -->
   <div class="modo-toggle" id="modoToggle">🌙 Modo Escuro</div>
 
-  <!-- Tela de login com clique -->
   <div class="bg" id="loginTela">
     <div class="login-box" id="loginBox">
-      <h2>Senha de Quantificação</h2>
-      <input type="password" id="senhaInput" placeholder="Senha..." autofocus />
-      <br>
+      <h2>Dashboard Ambiental</h2>
+      <p>Digite a senha para acessar os dados</p>
+      <div class="input-group">
+        <input type="password" id="senhaInput" placeholder="Digite sua senha..." autofocus />
+      </div>
       <button onclick="verificarSenha()"><i class="fas fa-lock"></i> Entrar</button>
+      <div class="error-message" id="errorMessage">Senha incorreta. Tente novamente.</div>
     </div>
   </div>
 
-  <!-- Dashboard -->
   <div id="conteudoDashboard">
     <div class="menu">
-      <button onclick="carregarConteudo('Grafico_Intera.html')"><i class="fas fa-chart-line"></i> Ver Gráfico</button>
-      <button onclick="carregarConteudo('GCAM_ECONOMIA_AMBIENTAL6.html')"><i class="fas fa-globe-americas"></i> Ver Mapa</button>
+      <button onclick="carregarConteudo('Grafico_Intera.html')"><i class="fas fa-chart-line"></i> Gráfico Interativo</button>
+      <button onclick="carregarConteudo('GCAM_ECONOMIA_AMBIENTAL6.html')"><i class="fas fa-globe-americas"></i> Mapa de Dados</button>
     </div>
-    <iframe id="conteudoFrame" src=""></iframe>
+    <div class="loading-container">
+      <div class="loading" id="loading"></div>
+      <iframe id="conteudoFrame" src=""></iframe>
+    </div>
   </div>
 
   <script>
@@ -189,42 +293,62 @@
     function mostrarLogin() {
       if (!loginExibido) {
         const box = document.getElementById("loginBox");
-        box.classList.add("ativo");
+        setTimeout(() => box.classList.add("ativo"), 100);
         document.getElementById("loginTela").removeEventListener("click", mostrarLogin);
         loginExibido = true;
       }
     }
 
-    window.onload = function () {
+    window.onload = function() {
       document.getElementById("loginTela").addEventListener("click", mostrarLogin);
+      mostrarLogin(); // Mostra login automaticamente
 
-      document.getElementById("senhaInput").addEventListener("keypress", function (e) {
+      document.getElementById("senhaInput").addEventListener("keypress", function(e) {
         if (e.key === "Enter") verificarSenha();
       });
     };
 
     function verificarSenha() {
       const senha = document.getElementById("senhaInput").value;
+      const loginBox = document.getElementById("loginBox");
+      const errorMessage = document.getElementById("errorMessage");
+
       if (senha === "ambientalgcam") {
-        document.getElementById("loginTela").style.display = "none";
-        document.getElementById("conteudoDashboard").style.display = "flex";
-        document.getElementById("modoToggle").style.display = "block";
-
-        carregarConteudo("Grafico_Intera.html");
-
-        // Ativar modo escuro após login
-        document.getElementById("modoToggle").addEventListener("click", () => {
-          document.body.classList.toggle("dark-mode");
-          const texto = document.body.classList.contains("dark-mode") ? "☀️ Modo Claro" : "🌙 Modo Escuro";
-          document.getElementById("modoToggle").innerText = texto;
-        });
+        document.getElementById("loginTela").style.opacity = 0;
+        setTimeout(() => {
+          document.getElementById("loginTela").style.display = "none";
+          document.getElementById("conteudoDashboard").style.display = "flex";
+          document.getElementById("modoToggle").style.display = "block";
+          carregarConteudo('Grafico_Intera.html');
+        }, 400);
       } else {
-        alert("Senha incorreta. Tente novamente.");
+        loginBox.classList.add("shake");
+        errorMessage.style.display = "block";
+        setTimeout(() => {
+          loginBox.classList.remove("shake");
+        }, 500);
       }
     }
 
+    document.getElementById("modoToggle").addEventListener("click", () => {
+      document.body.classList.toggle("dark-mode");
+      const texto = document.body.classList.contains("dark-mode") ? "☀️ Modo Claro" : "🌙 Modo Escuro";
+      document.getElementById("modoToggle").innerText = texto;
+    });
+
     function carregarConteudo(pagina) {
-      document.getElementById("conteudoFrame").src = pagina;
+      const loading = document.getElementById("loading");
+      const iframe = document.getElementById("conteudoFrame");
+      
+      loading.style.display = "block";
+      iframe.style.opacity = "0.5";
+
+      iframe.onload = function() {
+        loading.style.display = "none";
+        iframe.style.opacity = "1";
+      };
+
+      iframe.src = pagina;
     }
   </script>
 
