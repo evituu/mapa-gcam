@@ -1,0 +1,139 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8" />
+  <title>Contato</title>
+  <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;600&display=swap" rel="stylesheet">
+  <style>
+    * {
+      box-sizing: border-box;
+    }
+
+    body {
+      margin: 0;
+      padding: 0;
+      font-family: 'Poppins', sans-serif;
+      background-image: url('gcam.png');
+      background-size: cover;
+      background-position: center;
+      background-attachment: fixed;
+      color: #2c3e50;
+    }
+
+    .overlay {
+      backdrop-filter: brightness(0.88) blur(2px);
+      min-height: 100vh;
+      padding: 40px;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+    }
+
+    .container {
+      background-color: rgba(255, 255, 255, 0.95);
+      padding: 40px;
+      max-width: 850px;
+      width: 100%;
+      border-radius: 14px;
+      box-shadow: 0 0 30px rgba(0, 0, 0, 0.25);
+      animation: fadeIn 0.6s ease-out;
+    }
+
+    h1 {
+      color: #34495e;
+      margin-bottom: 20px;
+    }
+
+    p {
+      font-size: 17px;
+      line-height: 1.6;
+      margin-bottom: 12px;
+    }
+
+    ul {
+      margin-top: 10px;
+      padding-left: 20px;
+    }
+
+    li {
+      margin-bottom: 8px;
+    }
+
+    a {
+      color: #2c3e50;
+      text-decoration: underline;
+    }
+
+    .autor {
+      margin-bottom: 20px;
+    }
+
+    @keyframes fadeIn {
+      from { opacity: 0; transform: translateY(20px); }
+      to { opacity: 1; transform: translateY(0); }
+    }
+
+    @media (max-width: 768px) {
+      .container {
+        padding: 25px;
+      }
+
+      p {
+        font-size: 16px;
+      }
+    }
+  </style>
+</head>
+<body>
+  <div class="overlay">
+    <div class="container">
+      <h1>📬 Contato e Créditos</h1>
+
+      <p><strong>Este painel interativo foi desenvolvido como parte do trabalho final da disciplina de <u>Economia Ambiental</u></strong>, ministrada pela professora <strong>Márcia Fonseca</strong>, no curso de Ciências Econômicas da <strong>Universidade Federal da Paraíba (UFPB)</strong>.</p>
+
+      <p><strong>Autores do Projeto:</strong></p>
+
+      <div class="autor">
+        <strong>👨‍💻 Vitor Eduardo</strong> – Desenvolvedor e analista de dados
+        <ul>
+          <li>📧 E-mail: <a href="mailto:vitor@example.com">vitor@example.com</a></li>
+          <li>🔗 LinkedIn: <a href="https://www.linkedin.com/in/vitor-eduardo" target="_blank">linkedin.com/in/vitor-eduardo</a></li>
+          <li>📱 Telefone: (83) 9 9999-9999</li>
+        </ul>
+      </div>
+
+      <div class="autor">
+        <strong>👨‍💻 Wallace Paulo</strong> – Colaborador na análise e estruturação do projeto
+        <ul>
+          <li>📧 E-mail: <a href="mailto:wallace@example.com">wallace@example.com</a></li>
+          <li>🔗 LinkedIn: <a href="https://www.linkedin.com/in/wallace-paulo" target="_blank">linkedin.com/in/wallace-paulo</a></li>
+          <li>📱 Telefone: (83) 9 8888-8888</li>
+        </ul>
+      </div>
+
+      <div class="autor">
+        <strong>👨‍💻 André Moura</strong> – Colaborador na pesquisa e interpretação dos dados
+        <ul>
+          <li>📧 E-mail: <a href="mailto:andre@example.com">andre@example.com</a></li>
+          <li>🔗 LinkedIn: <a href="https://www.linkedin.com/in/andre-moura" target="_blank">linkedin.com/in/andre-moura</a></li>
+          <li>📱 Telefone: (83) 9 7777-7777</li>
+        </ul>
+      </div>
+
+      <p><strong>Professora Responsável:</strong></p>
+      <ul>
+        <li>👩‍🏫 Profa. Márcia Fonseca</li>
+        <li>📧 E-mail: <a href="mailto:marcia.fonseca@ufpb.br">marcia.fonseca@ufpb.br</a></li>
+      </ul>
+
+      <p><strong>Instituição:</strong></p>
+      <ul>
+        <li>🏛️ Universidade Federal da Paraíba (UFPB)</li>
+        <li>📍 Departamento de Economia – CCSA</li>
+      </ul>
+
+      <p><strong>Observação:</strong> Este site tem fins acadêmicos e foi construído com tecnologias de código aberto como R, HTML, CSS, JavaScript, e bibliotecas como Plotly e Leaflet.</p>
+    </div>
+  </div>
+</body>
+</html>
