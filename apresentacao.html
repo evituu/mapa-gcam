@@ -86,36 +86,38 @@
   </style>
 </head>
 <body>
-  <div class="container">
-    <h1 data-i18n="welcomePanel">🌿 Bem-vindo ao Painel Interativo GCAM</h1>
+  <div class="overlay">
+    <div class="container">
+      <h1 data-i18n="welcomePanel">🌿 Bem-vindo ao Painel Interativo GCAM</h1>
 
-    <p data-i18n="introText">
-      Este painel é parte de um <strong>trabalho acadêmico da disciplina Economia Ambiental</strong>,
-      ministrada pela Professora <strong>Márcia Fonseca</strong> no curso de Ciências Econômicas da
-      <strong>Universidade Federal da Paraíba (UFPB)</strong>.
-    </p>
+      <p data-i18n="introText">
+        Este painel é parte de um <strong>trabalho acadêmico da disciplina Economia Ambiental</strong>,
+        ministrada pela Professora <strong>Márcia Fonseca</strong> no curso de Ciências Econômicas da
+        <strong>Universidade Federal da Paraíba (UFPB)</strong>.
+      </p>
 
-    <p data-i18n="objectiveText">
-      O objetivo é explorar os dados de projeção de emissões globais de CO<sub>2</sub> com base no
-      <strong>Global Change Analysis Model (GCAM)</strong>, uma ferramenta integrada de modelagem que
-      simula as interações entre os sistemas energético, econômico, agrário e climático até o ano de 2100.
-    </p>
+      <p data-i18n="objectiveText">
+        O objetivo é explorar os dados de projeção de emissões globais de CO<sub>2</sub> com base no
+        <strong>Global Change Analysis Model (GCAM)</strong>, uma ferramenta integrada de modelagem que
+        simula as interações entre os sistemas energético, econômico, agrário e climático até o ano de 2100.
+      </p>
 
-    <p data-i18n="gcamDescription">
-      O <strong>GCAM</strong> (desenvolvido pelo <em>Pacific Northwest National Laboratory</em> – EUA) é um modelo de equilíbrio parcial
-      que permite avaliar trajetórias de emissão com base em diferentes cenários socioeconômicos e climáticos, sendo amplamente
-      utilizado em estudos de mitigação, políticas públicas e desenvolvimento sustentável.
-    </p>
+      <p data-i18n="gcamDescription">
+        O <strong>GCAM</strong> (desenvolvido pelo <em>Pacific Northwest National Laboratory</em> – EUA) é um modelo de equilíbrio parcial
+        que permite avaliar trajetórias de emissão com base em diferentes cenários socioeconômicos e climáticos, sendo amplamente
+        utilizado em estudos de mitigação, políticas públicas e desenvolvimento sustentável.
+      </p>
 
-    <p data-i18n="menuInstruction">📂 Utilize o menu lateral para acessar as seções do painel:</p>
-    <ul>
-      <li data-i18n="methodologyItem"> <strong>Metodologia</strong>: Aprenda a metodologia do modelo de GCAM e a fonte dos dados coletados</li>
-      <li data-i18n="graphItem">📈 <strong>Gráfico</strong>: Visualize as projeções temporais por continente da emissão de gás carbônico per capita</li>
-      <li data-i18n="mapItem">🗺️ <strong>Mapa</strong>: Explore a distribuição geográfica das emissões de CO2 projetadas globalmente</li>
-      <li data-i18n="darkModeItem">🌓 <strong>Modo Escuro</strong>: Altere o tema para melhor visualização</li>
-    </ul>
+      <p data-i18n="menuInstruction">📂 Utilize o menu lateral para acessar as seções do painel:</p>
+      <ul>
+        <li data-i18n="methodologyItem"><strong>Metodologia</strong>: Aprenda a metodologia do modelo de GCAM e a fonte dos dados coletados</li>
+        <li data-i18n="graphItem">📈 <strong>Gráfico</strong>: Visualize as projeções temporais por continente da emissão de gás carbônico per capita</li>
+        <li data-i18n="mapItem">🗺️ <strong>Mapa</strong>: Explore a distribuição geográfica das emissões de CO2 projetadas globalmente</li>
+        <li data-i18n="darkModeItem">🌓 <strong>Modo Escuro</strong>: Altere o tema para melhor visualização</li>
+      </ul>
 
-    <p data-i18n="enjoyText"><em>Aproveite a experiência e boa análise!</em></p>
+      <p data-i18n="enjoyText"><em>Aproveite a experiência e boa análise!</em></p>
+    </div>
   </div>
 
   <script>
@@ -152,7 +154,7 @@
     function updateTexts() {
       const elements = document.querySelectorAll('[data-i18n]');
       const currentLanguage = localStorage.getItem('preferredLanguage') || 'pt';
-      
+
       elements.forEach(element => {
         const key = element.getAttribute('data-i18n');
         if (translations[currentLanguage][key]) {
@@ -160,11 +162,9 @@
         }
       });
 
-      // Atualiza o atributo lang do HTML
       document.documentElement.lang = currentLanguage;
     }
 
-    // Carrega a preferência de idioma ao iniciar
     document.addEventListener('DOMContentLoaded', updateTexts);
   </script>
 </body>
