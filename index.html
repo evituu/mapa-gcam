@@ -38,10 +38,11 @@
       position: fixed;
       top: 0;
       left: 0;
-      width: 100%;
-      height: 100%;
+      width: 100vw;
+      height: 100vh;
       pointer-events: none;
-      z-index: 1;
+      z-index: 100;
+      display: block;
     }
 
     .bg {
@@ -529,74 +530,84 @@
 
   <script>
     // Código do efeito de linha animada
-    const canvas = document.getElementById('canvas');
-    const ctx = canvas.getContext('2d');
-    let width = window.innerWidth;
-    let height = window.innerHeight;
-    canvas.width = width;
-    canvas.height = height;
-
-    let mouse = { x: width/2, y: height/2 };
-    let points = [];
-    const numPoints = 30; // Número de pontos no rastro
-    const lineWidth = 2;
-    const opacity = 0.3;
-
-    // Cria gradiente para a linha
-    const gradient = ctx.createLinearGradient(0, 0, width, height);
-    gradient.addColorStop(0, 'rgba(255, 255, 255, 0.8)');
-    gradient.addColorStop(0.5, 'rgba(255, 255, 255, 0.4)');
-    gradient.addColorStop(1, 'rgba(255, 255, 255, 0.1)');
-
-    window.addEventListener('resize', () => {
-      width = window.innerWidth;
-      height = window.innerHeight;
+    document.addEventListener('DOMContentLoaded', function() {
+      const canvas = document.getElementById('canvas');
+      const ctx = canvas.getContext('2d');
+      let width = window.innerWidth;
+      let height = window.innerHeight;
       canvas.width = width;
       canvas.height = height;
-    });
 
-    window.addEventListener('mousemove', (e) => {
-      mouse.x = e.clientX;
-      mouse.y = e.clientY;
-    });
+      let mouse = { x: width/2, y: height/2 };
+      let points = [];
+      const numPoints = 30; // Número de pontos no rastro
+      const lineWidth = 2;
 
-    // Inicializa os pontos
-    for (let i = 0; i < numPoints; i++) {
-      points.push({ x: mouse.x, y: mouse.y });
-    }
+      function createGradient() {
+        const grad = ctx.createLinearGradient(0, 0, width, height);
+        grad.addColorStop(0, 'rgba(255,255,255,0.9)');
+        grad.addColorStop(0.5, 'rgba(255,255,255,0.5)');
+        grad.addColorStop(1, 'rgba(255,255,255,0.1)');
+        return grad;
+      }
+      let gradient = createGradient();
 
-    function lerp(start, end, t) {
-      return start * (1 - t) + end * t;
-    }
-
-    function animate() {
-      ctx.clearRect(0, 0, width, height);
-      
-      // Adiciona novo ponto na posição do mouse
-      points.unshift({ x: mouse.x, y: mouse.y });
-      points.pop();
-
-      // Desenha a linha com gradiente e opacidade variável
-      ctx.beginPath();
-      ctx.moveTo(points[0].x, points[0].y);
-      
-      for (let i = 1; i < points.length; i++) {
-        const t = i / points.length;
-        const x = lerp(points[i-1].x, points[i].x, 0.5);
-        const y = lerp(points[i-1].y, points[i].y, 0.5);
-        ctx.lineTo(x, y);
+      function resizeCanvas() {
+        width = window.innerWidth;
+        height = window.innerHeight;
+        canvas.width = width;
+        canvas.height = height;
+        gradient = createGradient();
       }
 
-      ctx.strokeStyle = gradient;
-      ctx.lineWidth = lineWidth;
-      ctx.lineCap = 'round';
-      ctx.lineJoin = 'round';
-      ctx.stroke();
+      window.addEventListener('resize', resizeCanvas);
 
-      requestAnimationFrame(animate);
-    }
+      window.addEventListener('mousemove', (e) => {
+        mouse.x = e.clientX;
+        mouse.y = e.clientY;
+      });
 
-    animate();
+      // Inicializa os pontos
+      for (let i = 0; i < numPoints; i++) {
+        points.push({ x: mouse.x, y: mouse.y });
+      }
+
+      function lerp(start, end, t) {
+        return start * (1 - t) + end * t;
+      }
+
+      function animate() {
+        ctx.clearRect(0, 0, width, height);
+        
+        // Adiciona novo ponto na posição do mouse
+        points.unshift({ x: mouse.x, y: mouse.y });
+        points.pop();
+
+        // Desenha a linha com gradiente
+        ctx.save();
+        ctx.beginPath();
+        ctx.moveTo(points[0].x, points[0].y);
+        for (let i = 1; i < points.length; i++) {
+          const t = i / points.length;
+          const x = lerp(points[i-1].x, points[i].x, 0.5);
+          const y = lerp(points[i-1].y, points[i].y, 0.5);
+          ctx.lineTo(x, y);
+        }
+        ctx.strokeStyle = gradient;
+        ctx.shadowColor = 'white';
+        ctx.shadowBlur = 8;
+        ctx.lineWidth = lineWidth;
+        ctx.lineCap = 'round';
+        ctx.lineJoin = 'round';
+        ctx.globalAlpha = 0.8;
+        ctx.stroke();
+        ctx.restore();
+
+        requestAnimationFrame(animate);
+      }
+
+      animate();
+    });
 
     let loginExibido = false;
 
