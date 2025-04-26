@@ -34,15 +34,14 @@
       color: #f0f0f0;
     }
 
-    #canvas {
+    #particleCanvas {
       position: fixed;
       top: 0;
       left: 0;
-      width: 100vw;
-      height: 100vh;
+      width: 100%;
+      height: 100%;
+      z-index: 1;
       pointer-events: none;
-      z-index: 100;
-      display: block;
     }
 
     .bg {
@@ -58,6 +57,7 @@
       transition: all 0.4s ease;
       position: relative;
       overflow: hidden;
+      z-index: 2;
     }
 
     .bg::before {
@@ -450,13 +450,12 @@
   </style>
 </head>
 <body>
-  <canvas id="canvas"></canvas>
+  <canvas id="particleCanvas"></canvas>
   <button class="menu-toggle" id="menuToggle">
     <i class="fas fa-bars"></i>
   </button>
 
   <div class="bg" id="loginTela">
-    <canvas id="tentacle-canvas"></canvas>
     <div class="login-box" id="loginBox">
       <h2 data-i18n="dashboardTitle">Dashboard - Projeção GCAM</h2>
       <p data-i18n="enterCode">Digite o código para quantificar os dados</p>
@@ -530,85 +529,100 @@
   </div>
 
   <script>
-    // Código do efeito de linha animada
-    document.addEventListener('DOMContentLoaded', function() {
-      const canvas = document.getElementById('canvas');
-      const ctx = canvas.getContext('2d');
-      let width = window.innerWidth;
-      let height = window.innerHeight;
-      canvas.width = width;
-      canvas.height = height;
+    // Código do efeito de partículas
+    const canvas = document.getElementById('particleCanvas');
+    const ctx = canvas.getContext('2d');
 
-      let mouse = { x: width/2, y: height/2 };
-      let points = [];
-      const numPoints = 30; // Número de pontos no rastro
-      const lineWidth = 2;
+    let w = window.innerWidth;
+    let h = window.innerHeight;
+    canvas.width = w;
+    canvas.height = h;
 
-      function createGradient() {
-        const grad = ctx.createLinearGradient(0, 0, width, height);
-        grad.addColorStop(0, 'rgba(255,255,255,0.9)');
-        grad.addColorStop(0.5, 'rgba(255,255,255,0.5)');
-        grad.addColorStop(1, 'rgba(255,255,255,0.1)');
-        return grad;
-      }
-      let gradient = createGradient();
+    let mouse = { x: w/2, y: h/2 };
+    let targetMouse = { x: w/2, y: h/2 };
 
-      function resizeCanvas() {
-        width = window.innerWidth;
-        height = window.innerHeight;
-        canvas.width = width;
-        canvas.height = height;
-        gradient = createGradient();
-      }
-
-      window.addEventListener('resize', resizeCanvas);
-
-      window.addEventListener('mousemove', (e) => {
-        mouse.x = e.clientX;
-        mouse.y = e.clientY;
-      });
-
-      // Inicializa os pontos
-      for (let i = 0; i < numPoints; i++) {
-        points.push({ x: mouse.x, y: mouse.y });
-      }
-
-      function lerp(start, end, t) {
-        return start * (1 - t) + end * t;
-      }
-
-      function animate() {
-        ctx.clearRect(0, 0, width, height);
-        
-        // Adiciona novo ponto na posição do mouse
-        points.unshift({ x: mouse.x, y: mouse.y });
-        points.pop();
-
-        // Desenha a linha com gradiente
-        ctx.save();
-        ctx.beginPath();
-        ctx.moveTo(points[0].x, points[0].y);
-        for (let i = 1; i < points.length; i++) {
-          const t = i / points.length;
-          const x = lerp(points[i-1].x, points[i].x, 0.5);
-          const y = lerp(points[i-1].y, points[i].y, 0.5);
-          ctx.lineTo(x, y);
-        }
-        ctx.strokeStyle = gradient;
-        ctx.shadowColor = 'white';
-        ctx.shadowBlur = 8;
-        ctx.lineWidth = lineWidth;
-        ctx.lineCap = 'round';
-        ctx.lineJoin = 'round';
-        ctx.globalAlpha = 0.8;
-        ctx.stroke();
-        ctx.restore();
-
-        requestAnimationFrame(animate);
-      }
-
-      animate();
+    window.addEventListener('mousemove', function(e) {
+      targetMouse.x = e.clientX;
+      targetMouse.y = e.clientY;
     });
+
+    window.addEventListener('resize', function() {
+      w = window.innerWidth;
+      h = window.innerHeight;
+      canvas.width = w;
+      canvas.height = h;
+    });
+
+    class Particle {
+      constructor() {
+        this.reset();
+      }
+
+      reset() {
+        this.x = w/2;
+        this.y = h/2;
+        this.vx = (Math.random() - 0.5) * 3;
+        this.vy = (Math.random() - 0.5) * 3;
+        this.life = Math.random() * 100 + 50;
+        this.size = Math.random() * 2 + 1;
+        this.hue = Math.random() * 60 + 180; // Tons de azul e ciano
+      }
+
+      update() {
+        const dx = mouse.x - this.x;
+        const dy = mouse.y - this.y;
+        this.vx += dx * 0.001;
+        this.vy += dy * 0.001;
+
+        this.vx *= 0.95;
+        this.vy *= 0.95;
+
+        this.x += this.vx;
+        this.y += this.vy;
+
+        this.life--;
+        if (this.life <= 0) {
+          this.reset();
+        }
+      }
+
+      draw(ctx) {
+        const gradient = ctx.createLinearGradient(mouse.x, mouse.y, this.x, this.y);
+        gradient.addColorStop(0, `hsla(${this.hue}, 100%, 50%, 0.8)`);
+        gradient.addColorStop(1, `hsla(${this.hue}, 100%, 50%, 0)`);
+
+        ctx.beginPath();
+        ctx.moveTo(mouse.x, mouse.y);
+        ctx.lineTo(this.x, this.y);
+        ctx.strokeStyle = gradient;
+        ctx.lineWidth = this.size;
+        ctx.stroke();
+      }
+    }
+
+    const particles = [];
+    for (let i = 0; i < 30; i++) {
+      particles.push(new Particle());
+    }
+
+    function animate() {
+      // Suaviza o movimento do mouse
+      mouse.x += (targetMouse.x - mouse.x) * 0.1;
+      mouse.y += (targetMouse.y - mouse.y) * 0.1;
+
+      // Limpa o canvas com um fundo semi-transparente para criar efeito de rastro
+      ctx.fillStyle = "rgba(0, 0, 0, 0.1)";
+      ctx.fillRect(0, 0, w, h);
+
+      for (let p of particles) {
+        p.update();
+        p.draw(ctx);
+      }
+
+      requestAnimationFrame(animate);
+    }
+
+    animate();
 
     let loginExibido = false;
 
@@ -684,7 +698,6 @@
           showWelcomeMessage();
           carregarConteudo('apresentacao.html');
           document.getElementById("menuApresentacao").classList.add("active");
-          showTentacleCanvas(false);
         }, 400);
       } else {
         loginBox.classList.add("shake");
@@ -927,113 +940,6 @@
         currentLanguage = savedLanguage;
         updateTexts();
       }
-    });
-
-    // Efeito tentáculos dinâmicos no login
-    function tentacleEffectInit() {
-      const canvas = document.getElementById('tentacle-canvas');
-      const bg = document.getElementById('loginTela');
-      function resizeCanvas() {
-        canvas.width = bg.offsetWidth;
-        canvas.height = bg.offsetHeight;
-      }
-      resizeCanvas();
-      window.addEventListener('resize', resizeCanvas);
-
-      const ctx = canvas.getContext('2d');
-      let mouse = { x: canvas.width/2, y: canvas.height/2 };
-      let tentacles = [];
-      const tentacleCount = 18;
-      const tentacleLength = 60;
-      const segmentLength = 8;
-      const color = 'rgba(255,255,255,0.85)';
-
-      window.addEventListener('mousemove', (e) => {
-        // Corrige posição do mouse relativa ao banner
-        const rect = bg.getBoundingClientRect();
-        mouse.x = e.clientX - rect.left;
-        mouse.y = e.clientY - rect.top;
-      });
-
-      function Tentacle(angle) {
-        this.segments = [];
-        let baseX = canvas.width/2;
-        let baseY = canvas.height/2;
-        for (let i = 0; i < tentacleLength; i++) {
-          this.segments.push({
-            x: baseX + Math.cos(angle) * i * segmentLength,
-            y: baseY + Math.sin(angle) * i * segmentLength
-          });
-        }
-        this.angle = angle;
-      }
-
-      Tentacle.prototype.update = function() {
-        // O primeiro segmento segue suavemente o mouse
-        this.segments[0].x += (mouse.x - this.segments[0].x) * 0.18;
-        this.segments[0].y += (mouse.y - this.segments[0].y) * 0.18;
-        // Os outros seguem o anterior
-        for (let i = 1; i < this.segments.length; i++) {
-          let prev = this.segments[i-1];
-          let seg = this.segments[i];
-          let dx = prev.x - seg.x;
-          let dy = prev.y - seg.y;
-          let dist = Math.sqrt(dx*dx + dy*dy);
-          let angle = Math.atan2(dy, dx);
-          let targetX = prev.x - Math.cos(angle) * segmentLength;
-          let targetY = prev.y - Math.sin(angle) * segmentLength;
-          seg.x += (targetX - seg.x) * 0.35;
-          seg.y += (targetY - seg.y) * 0.35;
-        }
-      };
-
-      Tentacle.prototype.draw = function() {
-        ctx.save();
-        ctx.beginPath();
-        ctx.moveTo(this.segments[0].x, this.segments[0].y);
-        for (let i = 1; i < this.segments.length; i++) {
-          ctx.lineTo(this.segments[i].x, this.segments[i].y);
-        }
-        ctx.strokeStyle = color;
-        ctx.shadowColor = 'white';
-        ctx.shadowBlur = 12;
-        ctx.lineWidth = 2.2;
-        ctx.globalAlpha = 0.85;
-        ctx.stroke();
-        ctx.restore();
-      };
-
-      tentacles = [];
-      for (let i = 0; i < tentacleCount; i++) {
-        let angle = (Math.PI * 2 / tentacleCount) * i;
-        tentacles.push(new Tentacle(angle));
-      }
-
-      function animate() {
-        ctx.clearRect(0, 0, canvas.width, canvas.height);
-        for (let t of tentacles) {
-          t.update();
-          t.draw();
-        }
-        requestAnimationFrame(animate);
-      }
-      animate();
-    }
-
-    // Ativa/desativa o canvas dos tentáculos conforme o login
-    function showTentacleCanvas(show) {
-      const canvas = document.getElementById('tentacle-canvas');
-      if (show) {
-        canvas.style.display = 'block';
-      } else {
-        canvas.style.display = 'none';
-      }
-    }
-
-    // Inicializa o efeito ao carregar a tela de login
-    document.addEventListener('DOMContentLoaded', () => {
-      tentacleEffectInit();
-      showTentacleCanvas(true);
     });
   </script>
 </body>
