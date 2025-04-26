@@ -42,6 +42,13 @@
       height: 100%;
       z-index: 1;
       pointer-events: none;
+      opacity: 1;
+      transition: opacity 0.4s ease;
+    }
+
+    #particleCanvas.hidden {
+      opacity: 0;
+      display: none;
     }
 
     .bg {
@@ -540,8 +547,10 @@
 
     let mouse = { x: w/2, y: h/2 };
     let targetMouse = { x: w/2, y: h/2 };
+    let isAnimating = true;
 
     window.addEventListener('mousemove', function(e) {
+      if (!isAnimating) return;
       targetMouse.x = e.clientX;
       targetMouse.y = e.clientY;
     });
@@ -565,10 +574,12 @@
         this.vy = (Math.random() - 0.5) * 3;
         this.life = Math.random() * 100 + 50;
         this.size = Math.random() * 2 + 1;
-        this.hue = Math.random() * 60 + 180; // Tons de azul e ciano
+        this.hue = Math.random() * 60 + 180;
       }
 
       update() {
+        if (!isAnimating) return;
+        
         const dx = mouse.x - this.x;
         const dy = mouse.y - this.y;
         this.vx += dx * 0.001;
@@ -587,6 +598,8 @@
       }
 
       draw(ctx) {
+        if (!isAnimating) return;
+        
         const gradient = ctx.createLinearGradient(mouse.x, mouse.y, this.x, this.y);
         gradient.addColorStop(0, `hsla(${this.hue}, 100%, 50%, 0.8)`);
         gradient.addColorStop(1, `hsla(${this.hue}, 100%, 50%, 0)`);
@@ -606,11 +619,11 @@
     }
 
     function animate() {
-      // Suaviza o movimento do mouse
+      if (!isAnimating) return;
+      
       mouse.x += (targetMouse.x - mouse.x) * 0.1;
       mouse.y += (targetMouse.y - mouse.y) * 0.1;
 
-      // Limpa o canvas com um fundo semi-transparente para criar efeito de rastro
       ctx.fillStyle = "rgba(0, 0, 0, 0.1)";
       ctx.fillRect(0, 0, w, h);
 
@@ -689,6 +702,10 @@
       const errorMessage = document.getElementById("errorMessage");
 
       if (senha === "gcam123") {
+        // Para a animação e esconde o canvas
+        isAnimating = false;
+        canvas.classList.add('hidden');
+        
         document.getElementById("loginTela").style.opacity = 0;
         setTimeout(() => {
           document.getElementById("loginTela").style.display = "none";
