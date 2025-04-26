@@ -12,6 +12,9 @@
   <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;600&display=swap" rel="stylesheet">
   <!-- Font Awesome para ícones -->
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" />
+  
+  <!-- GSAP para animações -->
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.2/gsap.min.js"></script>
 
   <style>
     * {
@@ -33,7 +36,7 @@
 
     .bg {
       background-image: url('quantum.png');
-      background-size: cover;
+      background-size: 120%; /* Aumentado para permitir movimento */
       background-position: center;
       height: 100vh;
       width: 100vw;
@@ -43,6 +46,7 @@
       text-align: center;
       transition: all 0.4s ease;
       position: relative;
+      overflow: hidden;
     }
 
     .bg::before {
@@ -514,6 +518,20 @@
 
   <script>
     let loginExibido = false;
+
+    // Adiciona o efeito de movimento do mouse
+    const bg = document.querySelector('.bg');
+    window.addEventListener('mousemove', (e) => {
+      const { innerWidth, innerHeight } = window;
+      const xPercent = 50 + (e.clientX / innerWidth - 0.5) * 10;
+      const yPercent = 50 + (e.clientY / innerHeight - 0.5) * 10;
+
+      gsap.to(bg, {
+        backgroundPosition: `${xPercent}% ${yPercent}%`,
+        duration: 0.6,
+        ease: "power3.out"
+      });
+    });
 
     function mostrarLogin() {
       if (!loginExibido) {
