@@ -34,9 +34,19 @@
       color: #f0f0f0;
     }
 
+    #canvas {
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      pointer-events: none;
+      z-index: 1;
+    }
+
     .bg {
       background-image: url('quantum.png');
-      background-size: 120%; /* Aumentado para permitir movimento */
+      background-size: 120%;
       background-position: center;
       height: 100vh;
       width: 100vw;
@@ -439,6 +449,7 @@
   </style>
 </head>
 <body>
+  <canvas id="canvas"></canvas>
   <button class="menu-toggle" id="menuToggle">
     <i class="fas fa-bars"></i>
   </button>
@@ -517,6 +528,76 @@
   </div>
 
   <script>
+    // Código do efeito de linha animada
+    const canvas = document.getElementById('canvas');
+    const ctx = canvas.getContext('2d');
+    let width = window.innerWidth;
+    let height = window.innerHeight;
+    canvas.width = width;
+    canvas.height = height;
+
+    let mouse = { x: width/2, y: height/2 };
+    let points = [];
+    const numPoints = 30; // Número de pontos no rastro
+    const lineWidth = 2;
+    const opacity = 0.3;
+
+    // Cria gradiente para a linha
+    const gradient = ctx.createLinearGradient(0, 0, width, height);
+    gradient.addColorStop(0, 'rgba(255, 255, 255, 0.8)');
+    gradient.addColorStop(0.5, 'rgba(255, 255, 255, 0.4)');
+    gradient.addColorStop(1, 'rgba(255, 255, 255, 0.1)');
+
+    window.addEventListener('resize', () => {
+      width = window.innerWidth;
+      height = window.innerHeight;
+      canvas.width = width;
+      canvas.height = height;
+    });
+
+    window.addEventListener('mousemove', (e) => {
+      mouse.x = e.clientX;
+      mouse.y = e.clientY;
+    });
+
+    // Inicializa os pontos
+    for (let i = 0; i < numPoints; i++) {
+      points.push({ x: mouse.x, y: mouse.y });
+    }
+
+    function lerp(start, end, t) {
+      return start * (1 - t) + end * t;
+    }
+
+    function animate() {
+      ctx.clearRect(0, 0, width, height);
+      
+      // Adiciona novo ponto na posição do mouse
+      points.unshift({ x: mouse.x, y: mouse.y });
+      points.pop();
+
+      // Desenha a linha com gradiente e opacidade variável
+      ctx.beginPath();
+      ctx.moveTo(points[0].x, points[0].y);
+      
+      for (let i = 1; i < points.length; i++) {
+        const t = i / points.length;
+        const x = lerp(points[i-1].x, points[i].x, 0.5);
+        const y = lerp(points[i-1].y, points[i].y, 0.5);
+        ctx.lineTo(x, y);
+      }
+
+      ctx.strokeStyle = gradient;
+      ctx.lineWidth = lineWidth;
+      ctx.lineCap = 'round';
+      ctx.lineJoin = 'round';
+      ctx.stroke();
+
+      requestAnimationFrame(animate);
+    }
+
+    animate();
+
     let loginExibido = false;
 
     // Adiciona o efeito de movimento do mouse
