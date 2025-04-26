@@ -457,12 +457,8 @@
   </style>
 </head>
 <body>
-  <canvas id="particleCanvas"></canvas>
-  <button class="menu-toggle" id="menuToggle">
-    <i class="fas fa-bars"></i>
-  </button>
-
   <div class="bg" id="loginTela">
+    <canvas id="particleCanvas"></canvas>
     <div class="login-box" id="loginBox">
       <h2 data-i18n="dashboardTitle">Dashboard - Projeção GCAM</h2>
       <p data-i18n="enterCode">Digite o código para quantificar os dados</p>
@@ -540,33 +536,37 @@
     const canvas = document.getElementById('particleCanvas');
     const ctx = canvas.getContext('2d');
 
-    let w = window.innerWidth;
-    let h = window.innerHeight;
-    canvas.width = w;
-    canvas.height = h;
+    function resizeCanvasToBg() {
+      const bg = document.getElementById('loginTela');
+      canvas.width = bg.offsetWidth;
+      canvas.height = bg.offsetHeight;
+    }
 
+    resizeCanvasToBg();
+    window.addEventListener('resize', resizeCanvasToBg);
+
+    let w = canvas.width;
+    let h = canvas.height;
     let mouse = { x: w/2, y: h/2 };
     let targetMouse = { x: w/2, y: h/2 };
     let isAnimating = true;
 
-    window.addEventListener('mousemove', function(e) {
-      if (!isAnimating) return;
-      targetMouse.x = e.clientX;
-      targetMouse.y = e.clientY;
+    // Mouse só dentro da área de login
+    document.getElementById('loginTela').addEventListener('mousemove', function(e) {
+      const rect = canvas.getBoundingClientRect();
+      targetMouse.x = e.clientX - rect.left;
+      targetMouse.y = e.clientY - rect.top;
     });
 
     window.addEventListener('resize', function() {
-      w = window.innerWidth;
-      h = window.innerHeight;
-      canvas.width = w;
-      canvas.height = h;
+      w = canvas.width;
+      h = canvas.height;
     });
 
     class Particle {
       constructor() {
         this.reset();
       }
-
       reset() {
         this.x = w/2;
         this.y = h/2;
@@ -576,34 +576,26 @@
         this.size = Math.random() * 2 + 1;
         this.hue = Math.random() * 60 + 180;
       }
-
       update() {
         if (!isAnimating) return;
-        
         const dx = mouse.x - this.x;
         const dy = mouse.y - this.y;
         this.vx += dx * 0.001;
         this.vy += dy * 0.001;
-
         this.vx *= 0.95;
         this.vy *= 0.95;
-
         this.x += this.vx;
         this.y += this.vy;
-
         this.life--;
         if (this.life <= 0) {
           this.reset();
         }
       }
-
       draw(ctx) {
         if (!isAnimating) return;
-        
         const gradient = ctx.createLinearGradient(mouse.x, mouse.y, this.x, this.y);
         gradient.addColorStop(0, `hsla(${this.hue}, 100%, 50%, 0.8)`);
         gradient.addColorStop(1, `hsla(${this.hue}, 100%, 50%, 0)`);
-
         ctx.beginPath();
         ctx.moveTo(mouse.x, mouse.y);
         ctx.lineTo(this.x, this.y);
@@ -620,48 +612,46 @@
 
     function animate() {
       if (!isAnimating) return;
-      
+      w = canvas.width;
+      h = canvas.height;
       mouse.x += (targetMouse.x - mouse.x) * 0.1;
       mouse.y += (targetMouse.y - mouse.y) * 0.1;
-
+      ctx.clearRect(0, 0, w, h);
       ctx.fillStyle = "rgba(0, 0, 0, 0.1)";
       ctx.fillRect(0, 0, w, h);
-
       for (let p of particles) {
         p.update();
         p.draw(ctx);
       }
-
       requestAnimationFrame(animate);
     }
-
     animate();
 
     let loginExibido = false;
 
-    // Adiciona o efeito de movimento do mouse
-    const bg = document.querySelector('.bg');
-    window.addEventListener('mousemove', (e) => {
-      const { innerWidth, innerHeight } = window;
-      const xPercent = 50 + (e.clientX / innerWidth - 0.5) * 10;
-      const yPercent = 50 + (e.clientY / innerHeight - 0.5) * 10;
-
-      gsap.to(bg, {
-        backgroundPosition: `${xPercent}% ${yPercent}%`,
-        duration: 0.6,
-        ease: "power3.out"
-      });
-    });
-
-    function mostrarLogin() {
-      if (!loginExibido) {
-        const box = document.getElementById("loginBox");
-        box.style.display = "block";
+    function verificarSenha() {
+      const senha = document.getElementById("senhaInput").value;
+      const loginBox = document.getElementById("loginBox");
+      const errorMessage = document.getElementById("errorMessage");
+      if (senha === "gcam123") {
+        isAnimating = false;
+        // Remove o canvas junto com a tela de login
+        document.getElementById("loginTela").style.opacity = 0;
         setTimeout(() => {
-          box.classList.add("ativo");
-        }, 10);
-        document.getElementById("loginTela").removeEventListener("click", mostrarLogin);
-        loginExibido = true;
+          document.getElementById("loginTela").style.display = "none";
+          document.getElementById("conteudoDashboard").style.display = "block";
+          document.getElementById("sidebar").style.display = "flex";
+          document.getElementById("menuToggle").style.display = "flex";
+          showWelcomeMessage();
+          carregarConteudo('apresentacao.html');
+          document.getElementById("menuApresentacao").classList.add("active");
+        }, 400);
+      } else {
+        loginBox.classList.add("shake");
+        errorMessage.style.display = "block";
+        setTimeout(() => {
+          loginBox.classList.remove("shake");
+        }, 500);
       }
     }
 
@@ -686,43 +676,6 @@
       setTimeout(() => {
         welcomeMessage.classList.remove("show");
       }, 3000);
-    }
-
-    window.onload = function() {
-      document.getElementById("loginTela").addEventListener("click", mostrarLogin);
-
-      document.getElementById("senhaInput").addEventListener("keypress", function(e) {
-        if (e.key === "Enter") verificarSenha();
-      });
-    };
-
-    function verificarSenha() {
-      const senha = document.getElementById("senhaInput").value;
-      const loginBox = document.getElementById("loginBox");
-      const errorMessage = document.getElementById("errorMessage");
-
-      if (senha === "gcam123") {
-        // Para a animação e esconde o canvas
-        isAnimating = false;
-        canvas.classList.add('hidden');
-        
-        document.getElementById("loginTela").style.opacity = 0;
-        setTimeout(() => {
-          document.getElementById("loginTela").style.display = "none";
-          document.getElementById("conteudoDashboard").style.display = "block";
-          document.getElementById("sidebar").style.display = "flex";
-          document.getElementById("menuToggle").style.display = "flex";
-          showWelcomeMessage();
-          carregarConteudo('apresentacao.html');
-          document.getElementById("menuApresentacao").classList.add("active");
-        }, 400);
-      } else {
-        loginBox.classList.add("shake");
-        errorMessage.style.display = "block";
-        setTimeout(() => {
-          loginBox.classList.remove("shake");
-        }, 500);
-      }
     }
 
     function toggleDarkMode() {
