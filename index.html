@@ -498,14 +498,16 @@
         document.getElementById("loginBox").style.opacity = 0;
         setTimeout(() => {
           document.getElementById("loginBox").style.display = "none";
-          document.getElementById("particles-background").style.display = "none";
+          tsParticles.domItem(0)?.destroy();
+          const particlesDiv = document.getElementById("particles-background");
+          if (particlesDiv) particlesDiv.remove();
+          document.getElementById("bg-image").style.display = "none";
           document.getElementById("conteudoDashboard").style.display = "block";
           document.getElementById("sidebar").style.display = "flex";
           document.getElementById("menuToggle").style.display = "flex";
           showWelcomeMessage();
           carregarConteudo('apresentacao.html');
           document.getElementById("menuApresentacao").classList.add("active");
-          document.getElementById("bg-image").style.display = "none";
         }, 400);
       } else {
         loginBox.classList.add("shake");
