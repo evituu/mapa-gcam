@@ -78,40 +78,92 @@
 <body>
   <div class="overlay">
     <div class="container">
-      <h1>🔍 Metodologia</h1>
+      <h1 data-i18n="methodologyTitle">🔍 Metodologia</h1>
 
-      <p>Este painel interativo foi desenvolvido como parte de um projeto acadêmico da disciplina de <strong>Economia Ambiental</strong> ministrada pela professora <strong>Márcia Fonseca</strong>, no curso de graduação em Ciências Econômicas da <strong>Universidade Federal da Paraíba (UFPB)</strong>.</p>
+      <p data-i18n="intro1">Este painel interativo foi desenvolvido como parte de um projeto acadêmico da disciplina de <strong>Economia Ambiental</strong> ministrada pela professora <strong>Márcia Fonseca</strong>, no curso de graduação em Ciências Econômicas da <strong>Universidade Federal da Paraíba (UFPB)</strong>.</p>
 
-      <p>O objetivo foi utilizar o modelo <strong>Global Change Analysis Model (GCAM)</strong> para explorar projeções globais de poluição até o ano de 2100. O GCAM é um modelo integrado de avaliação que simula interações entre energia, uso da terra, economia e clima, sendo amplamente utilizado para estudos de impacto ambiental em escala global.</p>
+      <p data-i18n="intro2">O objetivo foi utilizar o modelo <strong>Global Change Analysis Model (GCAM)</strong> para explorar projeções globais de poluição até o ano de 2100. O GCAM é um modelo integrado de avaliação que simula interações entre energia, uso da terra, economia e clima, sendo amplamente utilizado para estudos de impacto ambiental em escala global.</p>
 
-      <p>A metodologia do GCAM integra tanto uma abordagem "top-down", baseada em comportamento agregado de mercado, quanto "bottom-up" detalhamento tecnológico explícito, que permite capturar as complexidades das dinâmicas de longo prazo. O núcleo do GCAM é o modelo de energia-economia-emissões baseado na estrutura Edmonds-Reilly-Barns (ERB). O ERB divide o sistema em quatro componentes principais: oferta de energia, demanda de energia, balanço de energia e emissões de gases de efeito estufa (CO₂, CH₄, N₂O).</p>
+      <p data-i18n="intro3">A metodologia do GCAM integra tanto uma abordagem "top-down", baseada em comportamento agregado de mercado, quanto "bottom-up" detalhamento tecnológico explícito, que permite capturar as complexidades das dinâmicas de longo prazo. O núcleo do GCAM é o modelo de energia-economia-emissões baseado na estrutura Edmonds-Reilly-Barns (ERB). O ERB divide o sistema em quatro componentes principais: oferta de energia, demanda de energia, balanço de energia e emissões de gases de efeito estufa (CO₂, CH₄, N₂O).</p>
 
-      <p>As emissões de gases de efeito estufa são calculadas aplicando coeficientes de emissão específicos para cada combustível consumido. Para o dióxido de carbono (CO₂), por exemplo, a quantidade de emissões é obtida pela multiplicação da energia consumida por um fator de emissão:</p>
+      <p data-i18n="intro4">As emissões de gases de efeito estufa são calculadas aplicando coeficientes de emissão específicos para cada combustível consumido. Para o dióxido de carbono (CO₂), por exemplo, a quantidade de emissões é obtida pela multiplicação da energia consumida por um fator de emissão:</p>
 
       <p style="text-align: center; font-size: 1.5em; margin: 32px 0;">
         $$E_{CO_2} = C_f \times Q$$
       </p>
 
-      <p>onde:</p>
+      <p data-i18n="where">onde:</p>
       <ul>
-        <li>\( E_{CO_2} \) é a emissão de CO₂,</li>
-        <li>\( C_f \) é o coeficiente de emissão para o combustível \( f \),</li>
-        <li>\( Q \) é a quantidade de energia consumida daquele combustível.</li>
+        <li data-i18n="eco2">\( E_{CO_2} \) é a emissão de CO₂,</li>
+        <li data-i18n="cf">\( C_f \) é o coeficiente de emissão para o combustível \( f \),</li>
+        <li data-i18n="q">\( Q \) é a quantidade de energia consumida daquele combustível.</li>
       </ul>
 
-      <p>Além disso, também incorpora cenários de avanço tecnológico, o qual assume a introdução progressiva de novas tecnologias energéticas, como por exemplo biomassa de baixo custo. Esses cenários alteram as curvas de custo de oferta e a intensidade de emissões, que leva a trajetórias alternativas de crescimento econômico, emissões e impactos climáticos​.</p>
+      <p data-i18n="intro5">Além disso, também incorpora cenários de avanço tecnológico, o qual assume a introdução progressiva de novas tecnologias energéticas, como por exemplo biomassa de baixo custo. Esses cenários alteram as curvas de custo de oferta e a intensidade de emissões, que leva a trajetórias alternativas de crescimento econômico, emissões e impactos climáticos​.</p>
 
-      <p><strong>Etapas da metodologia aplicada:</strong></p>
+      <p data-i18n="stepsTitle"><strong>Etapas da metodologia aplicada:</strong></p>
       <ul>
-        <li>📁 Coleta dos dados de saída do modelo GCAM em formato Excel;</li>
-        <li>📊 Tratamento e transformação dos dados no software R Studio;</li>
-        <li>🧪 Criação de visualizações interativas com plotly e leaflet;</li>
-        <li>💻 Desenvolvimento da interface web com <strong>HTML + CSS + JavaScript</strong>; e</li>
-        <li>🌐 Publicação via <strong>GitHub Pages</strong> para acesso público.</li>
+        <li data-i18n="step1">📁 Coleta dos dados de saída do modelo GCAM em formato Excel;</li>
+        <li data-i18n="step2">📊 Tratamento e transformação dos dados no software R Studio;</li>
+        <li data-i18n="step3">🧪 Criação de visualizações interativas com plotly e leaflet;</li>
+        <li data-i18n="step4">💻 Desenvolvimento da interface web com <strong>HTML + CSS + JavaScript</strong>; e</li>
+        <li data-i18n="step5">🌐 Publicação via <strong>GitHub Pages</strong> para acesso público.</li>
       </ul>
     </div>
   </div>
   <script src="https://polyfill.io/v3/polyfill.min.js?features=es6"></script>
   <script id="MathJax-script" async src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script>
+  <script>
+    const translations = {
+      pt: {
+        methodologyTitle: "🔍 Metodologia",
+        intro1: 'Este painel interativo foi desenvolvido como parte de um projeto acadêmico da disciplina de <strong>Economia Ambiental</strong> ministrada pela professora <strong>Márcia Fonseca</strong>, no curso de graduação em Ciências Econômicas da <strong>Universidade Federal da Paraíba (UFPB)</strong>.',
+        intro2: 'O objetivo foi utilizar o modelo <strong>Global Change Analysis Model (GCAM)</strong> para explorar projeções globais de poluição até o ano de 2100. O GCAM é um modelo integrado de avaliação que simula interações entre energia, uso da terra, economia e clima, sendo amplamente utilizado para estudos de impacto ambiental em escala global.',
+        intro3: 'A metodologia do GCAM integra tanto uma abordagem "top-down", baseada em comportamento agregado de mercado, quanto "bottom-up" detalhamento tecnológico explícito, que permite capturar as complexidades das dinâmicas de longo prazo. O núcleo do GCAM é o modelo de energia-economia-emissões baseado na estrutura Edmonds-Reilly-Barns (ERB). O ERB divide o sistema em quatro componentes principais: oferta de energia, demanda de energia, balanço de energia e emissões de gases de efeito estufa (CO₂, CH₄, N₂O).',
+        intro4: 'As emissões de gases de efeito estufa são calculadas aplicando coeficientes de emissão específicos para cada combustível consumido. Para o dióxido de carbono (CO₂), por exemplo, a quantidade de emissões é obtida pela multiplicação da energia consumida por um fator de emissão:',
+        where: 'onde:',
+        eco2: '\\( E_{CO_2} \\) é a emissão de CO₂,',
+        cf: '\\( C_f \\) é o coeficiente de emissão para o combustível \\( f \\),',
+        q: '\\( Q \\) é a quantidade de energia consumida daquele combustível.',
+        intro5: 'Além disso, também incorpora cenários de avanço tecnológico, o qual assume a introdução progressiva de novas tecnologias energéticas, como por exemplo biomassa de baixo custo. Esses cenários alteram as curvas de custo de oferta e a intensidade de emissões, que leva a trajetórias alternativas de crescimento econômico, emissões e impactos climáticos​.',
+        stepsTitle: '<strong>Etapas da metodologia aplicada:</strong>',
+        step1: '📁 Coleta dos dados de saída do modelo GCAM em formato Excel;',
+        step2: '📊 Tratamento e transformação dos dados no software R Studio;',
+        step3: '🧪 Criação de visualizações interativas com plotly e leaflet;',
+        step4: '💻 Desenvolvimento da interface web com <strong>HTML + CSS + JavaScript</strong>; e',
+        step5: '🌐 Publicação via <strong>GitHub Pages</strong> para acesso público.'
+      },
+      en: {
+        methodologyTitle: "🔍 Methodology",
+        intro1: 'This interactive dashboard was developed as part of an academic project for the <strong>Environmental Economics</strong> course taught by Professor <strong>Márcia Fonseca</strong> in the undergraduate program in Economics at the <strong>Federal University of Paraíba (UFPB)</strong>.',
+        intro2: 'The objective was to use the <strong>Global Change Analysis Model (GCAM)</strong> to explore global pollution projections up to the year 2100. GCAM is an integrated assessment model that simulates interactions between energy, land use, economy, and climate, and is widely used for global-scale environmental impact studies.',
+        intro3: 'The GCAM methodology integrates both a "top-down" approach, based on aggregate market behavior, and a "bottom-up" approach with explicit technological detail, allowing the capture of long-term dynamic complexities. The core of GCAM is the energy-economy-emissions model based on the Edmonds-Reilly-Barns (ERB) structure. The ERB divides the system into four main components: energy supply, energy demand, energy balance, and greenhouse gas emissions (CO₂, CH₄, N₂O).',
+        intro4: 'Greenhouse gas emissions are calculated by applying emission coefficients specific to each fuel consumed. For carbon dioxide (CO₂), for example, the amount of emissions is obtained by multiplying the energy consumed by an emission factor:',
+        where: 'where:',
+        eco2: '\\( E_{CO_2} \\) is the CO₂ emission,',
+        cf: '\\( C_f \\) is the emission coefficient for fuel \\( f \\,',
+        q: '\\( Q \\) is the amount of energy consumed from that fuel.',
+        intro5: 'It also incorporates scenarios of technological advancement, which assume the progressive introduction of new energy technologies, such as low-cost biomass. These scenarios alter the supply cost curves and emission intensity, leading to alternative trajectories of economic growth, emissions, and climate impacts.',
+        stepsTitle: '<strong>Steps of the applied methodology:</strong>',
+        step1: '📁 Collection of GCAM model output data in Excel format;',
+        step2: '📊 Data processing and transformation in R Studio;',
+        step3: '🧪 Creation of interactive visualizations with plotly and leaflet;',
+        step4: '💻 Web interface development with <strong>HTML + CSS + JavaScript</strong>; and',
+        step5: '🌐 Publication via <strong>GitHub Pages</strong> for public access.'
+      }
+    };
+    function updateTexts() {
+      const elements = document.querySelectorAll('[data-i18n]');
+      const currentLanguage = localStorage.getItem('preferredLanguage') || 'pt';
+      elements.forEach(element => {
+        const key = element.getAttribute('data-i18n');
+        if (translations[currentLanguage][key]) {
+          element.innerHTML = translations[currentLanguage][key];
+        }
+      });
+      document.documentElement.lang = currentLanguage;
+    }
+    document.addEventListener('DOMContentLoaded', updateTexts);
+  </script>
 </body>
 </html>
