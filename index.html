@@ -357,6 +357,11 @@
         left: 210px;
       }
     }
+
+    #conteudo-principal {
+      position: relative;
+      z-index: 10;
+    }
   </style>
 </head>
 <body>
@@ -366,7 +371,7 @@
 
   <div class="bg" id="loginTela">
     <!-- Canvas de partículas -->
-    <div id="particle-canvas"></div>
+    <div id="particle-canvas" style="width:100vw; height:100vh; position:fixed; top:0; left:0; z-index:0;"></div>
 
     <!-- Caixa de login -->
     <div class="login-box" id="loginBox">
@@ -439,6 +444,7 @@
     <span data-i18n="linkCopied">Link copiado com sucesso!</span> ✅
   </div>
 
+  <script src="js/particle-network.js"></script>
   <script>
     let loginExibido = false;
 
@@ -747,11 +753,11 @@
     // Inicializa o efeito de partículas
     var canvasDiv = document.getElementById('particle-canvas');
     var options = {
-      particleColor: '#ffffff',       // Cor das partículas
-      background: 'transparent',      // Fundo transparente para mostrar a imagem
-      interactive: true,              // Responde ao mouse
-      speed: 'medium',                // Velocidade: 'slow', 'medium', 'fast'
-      density: 'high'                 // Densidade: 'low', 'medium', 'high'
+      particleColor: "#fff",      // Cor das partículas
+      background: "#1a252f",      // Cor de fundo (ou pode ser uma imagem)
+      interactive: true,          // Partículas interativas com o mouse
+      speed: "medium",            // Velocidade: "fast", "slow", "none" ou padrão
+      density: 10000              // Densidade: "high", "low" ou número
     };
     new ParticleNetwork(canvasDiv, options);
   </script>
