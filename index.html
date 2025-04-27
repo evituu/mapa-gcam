@@ -362,6 +362,16 @@
       position: relative;
       z-index: 10;
     }
+
+    #particles-background {
+      position: absolute;
+      width: 100vw;
+      height: 100vh;
+      z-index: 1; /* abaixo do conteúdo, acima do fundo */
+      top: 0;
+      left: 0;
+      pointer-events: none; /* para não atrapalhar cliques */
+    }
   </style>
 </head>
 <body>
@@ -370,9 +380,7 @@
   </button>
 
   <div class="bg" id="loginTela">
-    <!-- Canvas de partículas -->
-    <div id="particle-canvas" style="width:100vw; height:100vh; position:fixed; top:0; left:0; z-index:0;"></div>
-
+    <div id="particles-background"></div>
     <!-- Caixa de login -->
     <div class="login-box" id="loginBox">
       <h2 data-i18n="dashboardTitle">Dashboard - Projeção GCAM</h2>
@@ -444,7 +452,7 @@
     <span data-i18n="linkCopied">Link copiado com sucesso!</span> ✅
   </div>
 
-  <script src="js/particle-network.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/tsparticles@2/tsparticles.bundle.min.js"></script>
   <script>
     let loginExibido = false;
 
@@ -497,9 +505,9 @@
       const errorMessage = document.getElementById("errorMessage");
 
       if (senha === "gcam123") {
-        document.getElementById("loginTela").style.opacity = 0;
+        document.getElementById("loginBox").style.opacity = 0;
         setTimeout(() => {
-          document.getElementById("loginTela").style.display = "none";
+          document.getElementById("loginBox").style.display = "none";
           document.getElementById("conteudoDashboard").style.display = "block";
           document.getElementById("sidebar").style.display = "flex";
           document.getElementById("menuToggle").style.display = "flex";
@@ -750,16 +758,76 @@
       }
     });
 
-    // Inicializa o efeito de partículas
-    var canvasDiv = document.getElementById('particle-canvas');
-    var options = {
-      particleColor: "#fff",      // Cor das partículas
-      background: "#1a252f",      // Cor de fundo (ou pode ser uma imagem)
-      interactive: true,          // Partículas interativas com o mouse
-      speed: "medium",            // Velocidade: "fast", "slow", "none" ou padrão
-      density: 10000              // Densidade: "high", "low" ou número
-    };
-    new ParticleNetwork(canvasDiv, options);
+    tsParticles.load("particles-background", {
+      background: {
+        color: {
+          value: "#1a252f" // cor de fundo, igual ao seu tema
+        }
+      },
+      fullScreen: { enable: false },
+      particles: {
+        number: {
+          value: 80,
+          density: {
+            enable: true,
+            area: 800
+          }
+        },
+        color: {
+          value: "#ffffff"
+        },
+        shape: {
+          type: "circle"
+        },
+        opacity: {
+          value: 0.5,
+          random: false
+        },
+        size: {
+          value: 3,
+          random: true
+        },
+        links: { // ATENÇÃO: em versões novas é "links", não "line_linked"
+          enable: true,
+          distance: 150,
+          color: "#ffffff",
+          opacity: 0.4,
+          width: 1
+        },
+        move: {
+          enable: true,
+          speed: 2,
+          direction: "none",
+          random: false,
+          straight: false,
+          outModes: "out"
+        }
+      },
+      interactivity: {
+        events: {
+          onHover: {
+            enable: true,
+            mode: "grab"
+          },
+          onClick: {
+            enable: true,
+            mode: "push"
+          }
+        },
+        modes: {
+          grab: {
+            distance: 200,
+            links: {
+              opacity: 1
+            }
+          },
+          push: {
+            quantity: 4
+          }
+        }
+      },
+      detectRetina: true
+    });
   </script>
 </body>
 </html>
