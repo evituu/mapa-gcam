@@ -17,7 +17,7 @@
 
   <style>
     * { box-sizing: border-box; margin: 0; padding: 0; }
-    html, body { height: 100%; font-family: 'Poppins', sans-serif; transition: background 0.4s, color 0.4s; background: transparent !important; }
+    html, body { height: 100%; font-family: 'Poppins', sans-serif; transition: background 0.4s, color 0.4s; }
     body.dark-mode { background-color: #1e1e1e; color: #f0f0f0; }
 
     /* Container de fundo com imagem */
@@ -42,10 +42,10 @@
     }
 
     #particles-background {
-      position: fixed;
-      width: 100%;
-      height: 100%;
-      z-index: -1;
+      position: absolute;
+      width: 100vw;
+      height: 100vh;
+      z-index: 1;
       top: 0;
       left: 0;
       pointer-events: none;
@@ -296,12 +296,10 @@
 
     iframe {
       width: 100%;
-      height: 100vh;
-      min-height: 100vh;
+      height: 100%;
       border: none;
       opacity: 1;
       transition: opacity 0.3s;
-      background: transparent !important;
     }
 
     iframe.loading {
@@ -373,7 +371,7 @@
   </button>
 
   <div class="bg" id="loginTela">
-    <img src="gcam.png" id="bg-image" style="position:absolute; width:100vw; height:100vh; object-fit:cover; z-index:0; top:0; left:0;">
+    <img src="quantum.png" id="bg-image" style="position:absolute; width:100vw; height:100vh; object-fit:cover; z-index:0; top:0; left:0;">
     <div id="particles-background"></div>
     <!-- Caixa de login -->
     <div class="login-box" id="loginBox">
