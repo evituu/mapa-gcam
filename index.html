@@ -13,6 +13,9 @@
   <!-- Font Awesome para ícones -->
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" />
 
+  <!-- Partículas Script -->
+  <script src="https://cdn.jsdelivr.net/npm/particle-network-js@1.0.0/dist/particle-network.min.js"></script>
+
   <style>
     * {
       box-sizing: border-box;
@@ -57,15 +60,16 @@
     }
 
     .login-box {
+      position: relative;
+      z-index: 2;
+      display: none;
       opacity: 0;
       transform: scale(0.9);
-      transition: all 0.5s cubic-bezier(0.4, 0, 0.2, 1);
-      display: none;
-      background-color: rgba(255, 255, 255, 0.95);
+      background-color: rgba(255,255,255,0.95);
       padding: 40px;
       border-radius: 15px;
       box-shadow: 0 8px 32px rgba(0,0,0,0.1);
-      z-index: 2;
+      transition: all 0.5s cubic-bezier(0.4,0,0.2,1);
       max-width: 400px;
       width: 90%;
     }
@@ -440,6 +444,9 @@
   </button>
 
   <div class="bg" id="loginTela">
+    <!-- Canvas das partículas -->
+    <div id="particle-canvas"></div>
+
     <div class="login-box" id="loginBox">
       <h2 data-i18n="dashboardTitle">Dashboard - Projeção GCAM</h2>
       <p data-i18n="enterCode">Digite o código para quantificar os dados</p>
@@ -450,7 +457,7 @@
         </span>
       </div>
       <button onclick="verificarSenha()"><i class="fas fa-lock"></i> <span data-i18n="enter">Entrar</span></button>
-      <div class="error-message" id="errorMessage" data-i18n="wrongPassword">Senha incorreta. Tente novamente!.</div>
+      <div class="error-message" id="errorMessage" data-i18n="wrongPassword">Senha incorreta. Tente novamente!</div>
     </div>
   </div>
 
@@ -816,6 +823,17 @@
         updateTexts();
       }
     });
+
+    // Inicializa o efeito de partículas
+    var canvasDiv = document.getElementById('particle-canvas');
+    var options = {
+      particleColor: '#ffffff',      // branco
+      background: '#000000',         // cor de fundo do plugin (opcional)
+      interactive: true,             // interatividade
+      speed: 'medium',               // velocidade: slow, medium, fast
+      density: 'high'                // densidade: low, medium, high
+    };
+    new ParticleNetwork(canvasDiv, options);
   </script>
 </body>
 </html>
