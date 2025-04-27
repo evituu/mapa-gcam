@@ -12,6 +12,8 @@
   <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;600&display=swap" rel="stylesheet">
   <!-- Font Awesome para ícones -->
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" />
+  <!-- Script de partículas -->
+  <script src="https://cdn.jsdelivr.net/gh/JulianLaval/canvas-particle-network.js@master/particle-network.min.js"></script>
 
   <style>
     * {
@@ -43,6 +45,15 @@
       text-align: center;
       transition: all 0.4s ease;
       position: relative;
+    }
+
+    #particle-canvas {
+      position: absolute;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      z-index: 0;
     }
 
     .bg::before {
@@ -439,8 +450,9 @@
     <i class="fas fa-bars"></i>
   </button>
 
-  <div class="bg" id="loginTela">
-    <div class="login-box" id="loginBox">
+  <div class="bg">
+    <div id="particle-canvas"></div>
+    <div class="login-box ativo">
       <h2 data-i18n="dashboardTitle">Dashboard - Projeção GCAM</h2>
       <p data-i18n="enterCode">Digite o código para quantificar os dados</p>
       <div class="input-group">
@@ -816,6 +828,17 @@
         updateTexts();
       }
     });
+  </script>
+  <script>
+    var canvasDiv = document.getElementById('particle-canvas');
+    var options = {
+      particleColor: '#ffffff',
+      background: '#1e1e1e',
+      interactive: true,
+      speed: 'slow',
+      density: 'high'
+    };
+    var particleCanvas = new ParticleNetwork(canvasDiv, options);
   </script>
 </body>
 </html>
