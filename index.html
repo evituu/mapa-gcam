@@ -12,14 +12,6 @@
   <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;600&display=swap" rel="stylesheet">
   <!-- Font Awesome para ícones -->
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" />
-<<<<<<< HEAD
-  <!-- Script de partículas -->
-  <script src="https://cdn.jsdelivr.net/gh/JulianLaval/canvas-particle-network.js@master/particle-network.min.js"></script>
-=======
-  
-  <!-- GSAP para animações -->
-  <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.2/gsap.min.js"></script>
->>>>>>> 0555be6080e6e2c743d6eab4d295f9ba07c3fc14
 
   <style>
     * {
@@ -39,26 +31,9 @@
       color: #f0f0f0;
     }
 
-    #particleCanvas {
-      position: fixed;
-      top: 0;
-      left: 0;
-      width: 100%;
-      height: 100%;
-      z-index: 1;
-      pointer-events: none;
-      opacity: 1;
-      transition: opacity 0.4s ease;
-    }
-
-    #particleCanvas.hidden {
-      opacity: 0;
-      display: none;
-    }
-
     .bg {
       background-image: url('quantum.png');
-      background-size: 120%;
+      background-size: cover;
       background-position: center;
       height: 100vh;
       width: 100vw;
@@ -68,17 +43,6 @@
       text-align: center;
       transition: all 0.4s ease;
       position: relative;
-      overflow: hidden;
-      z-index: 2;
-    }
-
-    #particle-canvas {
-      position: absolute;
-      top: 0;
-      left: 0;
-      width: 100%;
-      height: 100%;
-      z-index: 0;
     }
 
     .bg::before {
@@ -471,19 +435,12 @@
   </style>
 </head>
 <body>
-<<<<<<< HEAD
   <button class="menu-toggle" id="menuToggle">
     <i class="fas fa-bars"></i>
   </button>
 
-  <div class="bg">
-    <div id="particle-canvas"></div>
-    <div class="login-box ativo">
-=======
   <div class="bg" id="loginTela">
-    <canvas id="particleCanvas"></canvas>
     <div class="login-box" id="loginBox">
->>>>>>> 0555be6080e6e2c743d6eab4d295f9ba07c3fc14
       <h2 data-i18n="dashboardTitle">Dashboard - Projeção GCAM</h2>
       <p data-i18n="enterCode">Digite o código para quantificar os dados</p>
       <div class="input-group">
@@ -556,126 +513,17 @@
   </div>
 
   <script>
-    // Código do efeito de partículas
-    const canvas = document.getElementById('particleCanvas');
-    const ctx = canvas.getContext('2d');
-
-    function resizeCanvasToBg() {
-      const bg = document.getElementById('loginTela');
-      canvas.width = bg.offsetWidth;
-      canvas.height = bg.offsetHeight;
-    }
-
-    resizeCanvasToBg();
-    window.addEventListener('resize', resizeCanvasToBg);
-
-    let w = canvas.width;
-    let h = canvas.height;
-    let mouse = { x: w/2, y: h/2 };
-    let targetMouse = { x: w/2, y: h/2 };
-    let isAnimating = true;
-
-    // Mouse só dentro da área de login
-    document.getElementById('loginTela').addEventListener('mousemove', function(e) {
-      const rect = canvas.getBoundingClientRect();
-      targetMouse.x = e.clientX - rect.left;
-      targetMouse.y = e.clientY - rect.top;
-    });
-
-    window.addEventListener('resize', function() {
-      w = canvas.width;
-      h = canvas.height;
-    });
-
-    class Particle {
-      constructor() {
-        this.reset();
-      }
-      reset() {
-        this.x = w/2;
-        this.y = h/2;
-        this.vx = (Math.random() - 0.5) * 3;
-        this.vy = (Math.random() - 0.5) * 3;
-        this.life = Math.random() * 100 + 50;
-        this.size = Math.random() * 2 + 1;
-        this.hue = Math.random() * 60 + 180;
-      }
-      update() {
-        if (!isAnimating) return;
-        const dx = mouse.x - this.x;
-        const dy = mouse.y - this.y;
-        this.vx += dx * 0.001;
-        this.vy += dy * 0.001;
-        this.vx *= 0.95;
-        this.vy *= 0.95;
-        this.x += this.vx;
-        this.y += this.vy;
-        this.life--;
-        if (this.life <= 0) {
-          this.reset();
-        }
-      }
-      draw(ctx) {
-        if (!isAnimating) return;
-        const gradient = ctx.createLinearGradient(mouse.x, mouse.y, this.x, this.y);
-        gradient.addColorStop(0, `hsla(${this.hue}, 100%, 50%, 0.8)`);
-        gradient.addColorStop(1, `hsla(${this.hue}, 100%, 50%, 0)`);
-        ctx.beginPath();
-        ctx.moveTo(mouse.x, mouse.y);
-        ctx.lineTo(this.x, this.y);
-        ctx.strokeStyle = gradient;
-        ctx.lineWidth = this.size;
-        ctx.stroke();
-      }
-    }
-
-    const particles = [];
-    for (let i = 0; i < 30; i++) {
-      particles.push(new Particle());
-    }
-
-    function animate() {
-      if (!isAnimating) return;
-      w = canvas.width;
-      h = canvas.height;
-      mouse.x += (targetMouse.x - mouse.x) * 0.1;
-      mouse.y += (targetMouse.y - mouse.y) * 0.1;
-      ctx.clearRect(0, 0, w, h);
-      ctx.fillStyle = "rgba(0, 0, 0, 0.1)";
-      ctx.fillRect(0, 0, w, h);
-      for (let p of particles) {
-        p.update();
-        p.draw(ctx);
-      }
-      requestAnimationFrame(animate);
-    }
-    animate();
-
     let loginExibido = false;
 
-    function verificarSenha() {
-      const senha = document.getElementById("senhaInput").value;
-      const loginBox = document.getElementById("loginBox");
-      const errorMessage = document.getElementById("errorMessage");
-      if (senha === "gcam123") {
-        isAnimating = false;
-        // Remove o canvas junto com a tela de login
-        document.getElementById("loginTela").style.opacity = 0;
+    function mostrarLogin() {
+      if (!loginExibido) {
+        const box = document.getElementById("loginBox");
+        box.style.display = "block";
         setTimeout(() => {
-          document.getElementById("loginTela").style.display = "none";
-          document.getElementById("conteudoDashboard").style.display = "block";
-          document.getElementById("sidebar").style.display = "flex";
-          document.getElementById("menuToggle").style.display = "flex";
-          showWelcomeMessage();
-          carregarConteudo('apresentacao.html');
-          document.getElementById("menuApresentacao").classList.add("active");
-        }, 400);
-      } else {
-        loginBox.classList.add("shake");
-        errorMessage.style.display = "block";
-        setTimeout(() => {
-          loginBox.classList.remove("shake");
-        }, 500);
+          box.classList.add("ativo");
+        }, 10);
+        document.getElementById("loginTela").removeEventListener("click", mostrarLogin);
+        loginExibido = true;
       }
     }
 
@@ -700,6 +548,39 @@
       setTimeout(() => {
         welcomeMessage.classList.remove("show");
       }, 3000);
+    }
+
+    window.onload = function() {
+      document.getElementById("loginTela").addEventListener("click", mostrarLogin);
+
+      document.getElementById("senhaInput").addEventListener("keypress", function(e) {
+        if (e.key === "Enter") verificarSenha();
+      });
+    };
+
+    function verificarSenha() {
+      const senha = document.getElementById("senhaInput").value;
+      const loginBox = document.getElementById("loginBox");
+      const errorMessage = document.getElementById("errorMessage");
+
+      if (senha === "gcam123") {
+        document.getElementById("loginTela").style.opacity = 0;
+        setTimeout(() => {
+          document.getElementById("loginTela").style.display = "none";
+          document.getElementById("conteudoDashboard").style.display = "block";
+          document.getElementById("sidebar").style.display = "flex";
+          document.getElementById("menuToggle").style.display = "flex";
+          showWelcomeMessage();
+          carregarConteudo('apresentacao.html');
+          document.getElementById("menuApresentacao").classList.add("active");
+        }, 400);
+      } else {
+        loginBox.classList.add("shake");
+        errorMessage.style.display = "block";
+        setTimeout(() => {
+          loginBox.classList.remove("shake");
+        }, 500);
+      }
     }
 
     function toggleDarkMode() {
@@ -935,17 +816,6 @@
         updateTexts();
       }
     });
-  </script>
-  <script>
-    var canvasDiv = document.getElementById('particle-canvas');
-    var options = {
-      particleColor: '#ffffff',
-      background: '#1e1e1e',
-      interactive: true,
-      speed: 'slow',
-      density: 'high'
-    };
-    var particleCanvas = new ParticleNetwork(canvasDiv, options);
   </script>
 </body>
 </html>
