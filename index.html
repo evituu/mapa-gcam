@@ -17,7 +17,15 @@
 
   <style>
     * { box-sizing: border-box; margin: 0; padding: 0; }
-    html, body { height: 100%; font-family: 'Poppins', sans-serif; transition: background 0.4s, color 0.4s; }
+    html, body {
+      width: 100vw;
+      height: 100vh;
+      margin: 0;
+      padding: 0;
+      overflow: hidden; /* evita scroll extra */
+      font-family: 'Poppins', sans-serif;
+      transition: background 0.4s, color 0.4s;
+    }
     body.dark-mode { background-color: #1e1e1e; color: #f0f0f0; }
 
     /* Container de fundo com imagem */
@@ -248,7 +256,7 @@
     }
 
     #conteudoDashboard {
-      width: 100vw;
+      width: calc(100vw - 250px);
       height: 100vh;
       margin-left: 250px;
       transition: margin-left 0.3s ease;
