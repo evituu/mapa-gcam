@@ -503,7 +503,10 @@
           tsParticles.domItem(0)?.destroy();
           const particlesDiv = document.getElementById("particles-background");
           if (particlesDiv) particlesDiv.remove();
-          document.getElementById("bg-image").style.display = "none";
+          const bgImage = document.getElementById("bg-image");
+          if (bgImage) bgImage.remove();
+          const loginTela = document.getElementById("loginTela");
+          if (loginTela) loginTela.remove();
           document.getElementById("conteudoDashboard").style.display = "block";
           document.getElementById("sidebar").style.display = "flex";
           document.getElementById("menuToggle").style.display = "flex";
