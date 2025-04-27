@@ -415,6 +415,9 @@
       <a class="nav-item" onclick="carregarConteudo('contato.html')" id="menuContato">
         <i class="fas fa-address-card"></i> <span data-i18n="contact">Contato</span>
       </a>
+      <a class="nav-item" onclick="carregarConteudo('referencia.html')" id="menuReferencia">
+        <i class="fas fa-book"></i> <span data-i18n="references">Referências</span>
+      </a>
       <a class="nav-item" id="menuCompartilhar">
         <i class="fas fa-share-alt"></i> <span data-i18n="share">Compartilhar</span>
         <div class="share-dropdown" id="shareDropdown">
@@ -508,7 +511,10 @@
         document.getElementById("loginBox").style.opacity = 0;
         setTimeout(() => {
           document.getElementById("loginBox").style.display = "none";
-          tsParticles.domItem(0)?.destroy();
+          const particles = tsParticles.dom();
+          if (particles && particles.length > 0) {
+            particles[0].destroy();
+          }
           const particlesDiv = document.getElementById("particles-background");
           if (particlesDiv) particlesDiv.remove();
           const bgImage = document.getElementById("bg-image");
@@ -695,6 +701,9 @@
         graph: "Gráfico",
         map: "Mapa",
         contact: "Contato",
+        references: "Referências",
+        bibliographicReferences: "Referências Bibliográficas",
+        onlineReferences: "Referências Online",
         share: "Compartilhar",
         darkMode: "Modo Escuro",
         lightMode: "Modo Claro",
@@ -714,6 +723,9 @@
         graph: "Graph",
         map: "Map",
         contact: "Contact",
+        references: "References",
+        bibliographicReferences: "Bibliographic References",
+        onlineReferences: "Online References",
         share: "Share",
         darkMode: "Dark Mode",
         lightMode: "Light Mode",
@@ -766,12 +778,6 @@
     });
 
     tsParticles.load("particles-background", {
-      // Remova ou comente este bloco:
-      // background: {
-      //   color: {
-      //     value: "#1a252f"
-      //   }
-      // },
       fullScreen: { enable: false },
       particles: {
         number: {
@@ -795,7 +801,7 @@
           value: 3,
           random: true
         },
-        links: { // ATENÇÃO: em versões novas é "links", não "line_linked"
+        links: {
           enable: true,
           distance: 150,
           color: "#ffffff",
