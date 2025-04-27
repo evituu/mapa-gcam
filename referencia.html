@@ -39,22 +39,18 @@
             color: #34495e;
             margin-bottom: 20px;
         }
-        h2 {
-            color: #2c3e50;
-            margin-top: 30px;
-            margin-bottom: 15px;
-        }
-        ul {
-            margin-top: 10px;
-            padding-left: 20px;
-        }
-        li {
-            margin-bottom: 12px;
+        .referencia {
+            margin-bottom: 18px;
             font-size: 16px;
+            line-height: 1.7;
+        }
+        .referencia strong {
+            font-weight: 600;
         }
         a {
             color: #2c3e50;
             text-decoration: underline;
+            word-break: break-all;
         }
         @keyframes fadeIn {
             from { opacity: 0; transform: translateY(20px); }
@@ -62,7 +58,7 @@
         }
         @media (max-width: 768px) {
             .container { padding: 25px; }
-            li { font-size: 15px; }
+            .referencia { font-size: 15px; }
         }
     </style>
 </head>
@@ -70,30 +66,22 @@
     <div class="overlay">
         <div class="container">
             <h1 data-i18n="references">Referências</h1>
-            <h2 data-i18n="bibliographicReferences">Referências Bibliográficas</h2>
-            <ul>
-                <li>IPCC. (2021). Climate Change 2021: The Physical Science Basis. Contribution of Working Group I to the Sixth Assessment Report of the Intergovernmental Panel on Climate Change.</li>
-                <li>GCAM Development Team. (2023). Global Change Analysis Model (GCAM) Documentation. Joint Global Change Research Institute.</li>
-            </ul>
-            <h2 data-i18n="onlineReferences">Referências Online</h2>
-            <ul>
-                <li><a href="https://www.ipcc.ch" target="_blank">IPCC - Intergovernmental Panel on Climate Change</a></li>
-                <li><a href="https://www.globalchange.umd.edu/gcam" target="_blank">GCAM - Global Change Analysis Model</a></li>
-            </ul>
+            <div class="referencia"><strong>EDMONDS, J. A.; WISE, M. A.; MACCRACKEN, C. N.</strong> Advanced energy technologies and climate change: an analysis using the Global Change Assessment Model (GCAM). Richland: Pacific Northwest Laboratory, 1994. Prepared for the U.S. Department of Energy under contract DE-AC06-76RL0 1830.</div>
+            <div class="referencia"><strong>GCIMS.</strong> GCAM 6.0 Install and Run on Windows. YouTube, 5 min. Disponível em: <a href="https://www.youtube.com/watch?v=2Tv-5rryhk8" target="_blank">https://www.youtube.com/watch?v=2Tv-5rryhk8</a>. Acesso em: 27 abr. 2025.</div>
+            <div class="referencia"><strong>JOINT GLOBAL CHANGE RESEARCH INSTITUTE.</strong> GCAM Documentation – Version 6.0 Overview. Disponível em: <a href="https://jgcri.github.io/gcam-doc/v6.0/overview.html" target="_blank">https://jgcri.github.io/gcam-doc/v6.0/overview.html</a>. Acesso em: 27 abr. 2025.</div>
+            <div class="referencia"><strong>JQ22.</strong> Particle Network Animation Demo. Disponível em: <a href="https://www.jq22.com/yanshi23646" target="_blank">https://www.jq22.com/yanshi23646</a>. Acesso em: 27 abr. 2025.</div>
+            <div class="referencia"><strong>LAVAL, Julian.</strong> Canvas Particle Network. GitHub. Disponível em: <a href="https://github.com/JulianLaval/canvas-particle-network" target="_blank">https://github.com/JulianLaval/canvas-particle-network</a>. Acesso em: 27 abr. 2025.</div>
+            <div class="referencia"><strong>ZENODO.</strong> GCAM-related resources. Zenodo, 2025. Disponível em: <a href="https://zenodo.org/records/6619287" target="_blank">https://zenodo.org/records/6619287</a>. Acesso em: 27 abr. 2025.</div>
         </div>
     </div>
     <script>
         // Sistema de internacionalização
         const translations = {
             pt: {
-                references: "Referências",
-                bibliographicReferences: "Referências Bibliográficas",
-                onlineReferences: "Referências Online"
+                references: "Referências"
             },
             en: {
-                references: "References",
-                bibliographicReferences: "Bibliographic References",
-                onlineReferences: "Online References"
+                references: "References"
             }
         };
         function updateTexts() {
