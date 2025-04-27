@@ -406,6 +406,9 @@
       <a class="nav-item" onclick="carregarConteudo('apresentacao.html')" id="menuApresentacao">
         <i class="fas fa-info-circle"></i> <span data-i18n="presentation">Apresentação</span>
       </a>
+      <a class="nav-item" onclick="carregarConteudo('metodologia.html')" id="menuMetodologia">
+        <i class="fas fa-flask"></i> <span data-i18n="methodology">Metodologia</span>
+      </a>
       <a class="nav-item" onclick="carregarConteudo('Grafico_Intera.html')" id="menuGrafico">
         <i class="fas fa-chart-line"></i> <span data-i18n="graph">Gráfico</span>
       </a>
@@ -567,6 +570,8 @@
         document.getElementById("menuGrafico").classList.add("active");
       } else if (pagina === 'GCAM_ECONOMIA_AMBIENTAL6.html') {
         document.getElementById("menuMapa").classList.add("active");
+      } else if (pagina === 'metodologia.html') {
+        document.getElementById("menuMetodologia").classList.add("active");
       }
       
       loading.style.display = "block";
@@ -709,7 +714,8 @@
         lightMode: "Modo Claro",
         switchToEnglish: "English",
         switchToPortuguese: "Português",
-        linkCopied: "Link copiado com sucesso!"
+        linkCopied: "Link copiado com sucesso!",
+        methodology: "Metodologia"
       },
       en: {
         dashboardTitle: "Dashboard - GCAM Projection",
@@ -731,7 +737,8 @@
         lightMode: "Light Mode",
         switchToEnglish: "English",
         switchToPortuguese: "Portuguese",
-        linkCopied: "Link copied successfully!"
+        linkCopied: "Link copied successfully!",
+        methodology: "Methodology"
       }
     };
 

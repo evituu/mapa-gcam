@@ -1,0 +1,118 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8" />
+  <title>Metodologia</title>
+  <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;600&display=swap" rel="stylesheet">
+  <style>
+    * {
+      box-sizing: border-box;
+    }
+
+    body {
+      margin: 0;
+      padding: 0;
+      font-family: 'Poppins', sans-serif;
+      background-image: url('gcam.png');
+      background-size: cover;
+      background-position: center;
+      background-attachment: fixed;
+      color: #2c3e50;
+    }
+
+    .overlay {
+      backdrop-filter: brightness(0.85) blur(2px);
+      min-height: 100vh;
+      padding: 40px;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+    }
+
+    .container {
+      background-color: rgba(255, 255, 255, 0.95);
+      padding: 40px;
+      max-width: 850px;
+      width: 100%;
+      border-radius: 14px;
+      box-shadow: 0 0 30px rgba(0, 0, 0, 0.25);
+      animation: fadeIn 0.6s ease-out;
+    }
+
+    h1 {
+      color: #34495e;
+      margin-bottom: 20px;
+    }
+
+    p {
+      font-size: 17px;
+      line-height: 1.6;
+      margin-bottom: 16px;
+    }
+
+    ul {
+      padding-left: 20px;
+      margin-top: 10px;
+    }
+
+    li {
+      margin-bottom: 10px;
+    }
+
+    @keyframes fadeIn {
+      from { opacity: 0; transform: translateY(20px); }
+      to { opacity: 1; transform: translateY(0); }
+    }
+
+    @media (max-width: 768px) {
+      .container {
+        padding: 25px;
+      }
+
+      p {
+        font-size: 16px;
+      }
+    }
+  </style>
+</head>
+<body>
+  <div class="overlay">
+    <div class="container">
+      <h1>🔍 Metodologia</h1>
+
+      <p>Este painel interativo foi desenvolvido como parte de um projeto acadêmico da disciplina de <strong>Economia Ambiental</strong> ministrada pela professora <strong>Márcia Fonseca</strong>, no curso de graduação em Ciências Econômicas da <strong>Universidade Federal da Paraíba (UFPB)</strong>.</p>
+
+      <p>O objetivo foi utilizar o modelo <strong>Global Change Analysis Model (GCAM)</strong> para explorar projeções globais de poluição até o ano de 2100. O GCAM é um modelo integrado de avaliação que simula interações entre energia, uso da terra, economia e clima, sendo amplamente utilizado para estudos de impacto ambiental em escala global.</p>
+
+      <p>A metodologia do GCAM integra tanto uma abordagem "top-down", baseada em comportamento agregado de mercado, quanto "bottom-up" detalhamento tecnológico explícito, que permite capturar as complexidades das dinâmicas de longo prazo. O núcleo do GCAM é o modelo de energia-economia-emissões baseado na estrutura Edmonds-Reilly-Barns (ERB). O ERB divide o sistema em quatro componentes principais: oferta de energia, demanda de energia, balanço de energia e emissões de gases de efeito estufa (CO₂, CH₄, N₂O).</p>
+
+      <p>As emissões de gases de efeito estufa são calculadas aplicando coeficientes de emissão específicos para cada combustível consumido. Para o dióxido de carbono (CO₂), por exemplo, a quantidade de emissões é obtida pela multiplicação da energia consumida por um fator de emissão:</p>
+
+<p style="text-align: center;">
+  \\[
+  E_{CO_2} = C_f \\times Q
+  \\]
+</p>
+
+<p>onde:</p>
+<ul>
+  <li><strong>E<sub>CO₂</sub></strong> é a emissão de CO₂;</li>
+  <li><strong>C<sub>f</sub></strong> é o coeficiente de emissão para o combustível <em>f</em>; e</li>
+  <li><strong>Q</strong> é a quantidade de energia consumida daquele combustível.</li>
+</ul>
+<p>
+
+      <p>Além disso, também incorpora cenários de avanço tecnológico, o qual assume a introdução progressiva de novas tecnologias energéticas, como por exemplo biomassa de baixo custo. Esses cenários alteram as curvas de custo de oferta e a intensidade de emissões, que leva a trajetórias alternativas de crescimento econômico, emissões e impactos climáticos​.</p>
+
+      <p><strong>Etapas da metodologia aplicada:</strong></p>
+      <ul>
+        <li>📁 Coleta dos dados de saída do modelo GCAM em formato Excel;</li>
+        <li>📊 Tratamento e transformação dos dados no software R Studio;</li>
+        <li>🧪 Criação de visualizações interativas com plotly e leaflet;</li>
+        <li>💻 Desenvolvimento da interface web com <strong>HTML + CSS + JavaScript</strong>; e</li>
+        <li>🌐 Publicação via <strong>GitHub Pages</strong> para acesso público.</li>
+      </ul>
+    </div>
+  </div>
+</body>
+</html>
