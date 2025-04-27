@@ -248,10 +248,9 @@
     }
 
     #conteudoDashboard {
-      background: url('quantum.png') center center/cover no-repeat;
-      min-height: 100vh;
-      width: 100vw;
       display: none;
+      width: 100vw;
+      height: 100vh;
       margin-left: 250px;
       transition: margin-left 0.3s ease;
     }
@@ -510,7 +509,6 @@
           carregarConteudo('apresentacao.html');
           document.getElementById("menuApresentacao").classList.add("active");
         }, 400);
-        document.getElementById("loginTela").remove();
       } else {
         loginBox.classList.add("shake");
         errorMessage.style.display = "block";
